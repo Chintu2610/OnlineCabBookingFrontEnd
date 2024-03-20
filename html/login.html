@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+    
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo {
+        width: 150px; /* Adjust the width as needed */
+        margin-bottom: 20px; /* Add some space between logo and login */
+    }
+    
+    h2 {
+        text-align: center;
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    input[type="submit"] {
+        width: 100%;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+</head>
+<body>
+<div class="container">
+    <img src="../assets/logo.png" alt="Logo" class="logo">
+    <h2>Login</h2>
+    <form id="loginForm"  >
+        <label for="email">email</label>
+        <input type="text" id="email" name="email" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <input type="submit" value="Login">
+    </form>
+</div>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+  const formData = {
+    email: document.getElementById('email').value,
+    password: document.getElementById('password').value,    
+  };
+  
+  // Replace 'http://localhost:1995/customer/register' with your actual backend API URL
+  fetch('http://localhost:1995/Userlogin/Login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+  })
+  .then(response => {
+        if (response.ok) {
+            // If login is successful (HTTP status code 200), redirect to the dashboard
+            localStorage.setItem('email', document.getElementById('email').value);
+            window.location.href = 'dashboard.html';
+        } else if (response.status === 401) {
+            // If login fails due to invalid credentials (HTTP status code 401), display an error message
+            alert("Invalid email or password. Please try again.");
+            window.location.href = 'login.html';
+        } else {
+            // If login fails for any other reason, display a generic error message
+            alert("An unexpected error occurred. Please try again later.");
+            window.location.href = 'login.html';
+        }
+    })
+  .then(data => {
+    // Log the response data (if needed)
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+});
+</script>
+</body>
+</html>

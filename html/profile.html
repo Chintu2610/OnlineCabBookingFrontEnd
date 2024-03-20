@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="xm-s1 Admin Template">
+    <meta name="keywords" content="admin, Cryptocurrency, account management">
+    <meta name="author" content="Weblabs - Admin Template">
+    <meta name="robots" content="noindex, nofollow">
+    <title>cabBooking Profile</title>
+    <link rel="shortcut icon" href="../assets/logo.jpg">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/line-awesome.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="page-wrapper">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3 class="page-title">Profile</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Profile</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Other content or form elements can be placed here -->
+                <!-- Profile Modal -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Profile Information</h2>
+                    </div>
+                </div>
+                <!-- userID, ReferrerUsername -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>User Id <span class="text-danger">*</span></label>
+                            <input type="text" id="userid" name="userid" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>First Name <span class="text-danger">*</span></label>
+                            <input type="text" id="firstname" name="firstname" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Last Name <span class="text-danger">*</span></label>
+                            <input type="text" id="lastname" name="lastname" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Email<span class="text-danger">*</span></label>
+                            <input type="text" id="email" name="email" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>User Name <span class="text-danger">*</span></label>
+                            <input type="text" id="username" name="username" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="text" id="phone" name="phone" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center">
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-primary">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Js Link -->
+    <script src="js/jquery-3.2.1.min.js"></script> 
+    <script src="js/popper.min.js"></script> 
+    <script src="js/bootstrap.min.js"></script> 
+    <script src="js/jquery.slimscroll.min.js"></script> 
+    <!-- End Js Link -->
+    
+    <!-- Profile Script -->
+    <script>
+        // Function to fetch data from API and populate the input fields
+        function populateFields() {
+            fetch('https://example.com/api/user/profile') // Replace this URL with your API endpoint
+                .then(response => response.json())
+                .then(data => {
+                    // Assuming data is returned in JSON format with keys matching input field ids
+                    Object.keys(data).forEach(function(key) {
+                        var element = document.getElementById(key);
+                        if (element) {
+                            element.value = data[key];
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        // Call the populateFields function when the page loads
+        window.onload = function() {
+            populateFields();
+        };
+    </script>
+    <!-- End Profile Script -->
+</body>
+</html>
