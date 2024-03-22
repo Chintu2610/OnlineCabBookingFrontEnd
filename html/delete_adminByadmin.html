@@ -79,13 +79,17 @@
         <input type="submit" value="Logout">
     </form>
 </div>
-
  <script>
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
 
- // Retrieve UID from localStorage
- var uuidd = localStorage.getItem('uuid');
+    const uuidd = getCookie('uuid');
     if (uuidd) {
         document.getElementById('welcomeMessage').innerText = `Welcome ${uuidd}!`;
+      //  document.getElementById('uuid123').value = uuidd; // Set the value of the input field
     }
 </script> 
 <script>
@@ -94,6 +98,9 @@
 
 
   var customerId= document.getElementById('customerId').value;
+  
+
+
   var url='http://localhost:1995/customer/delete';
     url+='?uuid='+uuidd;
     url+='&customerId='+customerId;
