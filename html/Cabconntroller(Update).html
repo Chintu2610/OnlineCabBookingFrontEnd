@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Add your CSS includes here -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/M.css">
+    <!-- Add any additional CSS files if needed -->
+    <style>
+        /* Flexbox styles for layout */
+        .container {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping to the next row */
+        }
+        .sidebar {
+            width: 15%; /* Adjust as needed */
+        }
+        .page-wrapper {
+            width: 75%; /* Adjust as needed */
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- No iframe for header, content loaded via fetch -->
+        <div id="header"></div>
+        
+        <div class="sidebar" style="width: 200px;">
+            <iframe src="sidebar.html" width="100%" height="650px" frameborder="0"></iframe>
+        </div>
+
+      
+        <div class="page-wrapper" style="margin-top: 0%;">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+                <!-- Page Header -->
+                <div class="page-header">
+                        <div class="modal-header">
+                        <h2 class="modal-title">Driver Controller</h2>
+                  <div class="col">
+               <br><br><br><div class="form-group">
+                    <label class="col-form-label">User ID  <span class="text-danger">*</span></label>
+                    <input name="Amount" required class="form-control" type="text">
+                </div>
+          
+                <div class="form-group">
+                    <label class="col-form-label">Cab ID<span class="text-danger">*</span></label>
+                    <input name="Amount" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Car ID<span class="text-danger">*</span></label>
+                    <input name="Amount" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Car Name<span class="text-danger">*</span></label>
+                    <input name="Amount" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Per Km Rate<span class="text-danger">*</span></label>
+                    <input name="Amount" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Cab Current Status<span class="text-danger">*</span></label>
+                    <input name="Amount" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Current Location<span class="text-danger">*</span></label>
+                    <input name="Amount" required class="form-control" type="text">
+                </div>
+                
+            </div>   
+        </div>
+        
+         <div class="submit-section">
+            <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+          </div>
+          </div>
+
+    <!-- Add your JavaScript includes here -->
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Load header content
+        fetch('header.html')//there is not script for it  data-target se vo connect hota
+            .then(response => response.text())
+            .then(data => document.getElementById('header').innerHTML = data)
+            .catch(error => console.error('Error fetching header:', error));
+
+        // Load sidebar content
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('sidebar').innerHTML = data)
+            .catch(error => console.error('Error fetching sidebar:', error));
+
+        // Function to retrieve the value of a cookie by its name
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
+
+        // Check if the 'email' cookie exists and display the welcome message
+        const userEmail = getCookie('uuid');
+        if (userEmail) {
+            document.getElementById('welcomeMessage').innerText = `Welcome ${userEmail}!`;
+        }
+    </script>
+    <script>
+        // Function to open the Booking Request modal
+        function openBookingRequestModal() {
+            $('#Tripcntrbookreq').modal('show'); // Show the modal using Bootstrap's modal method
+        }
+    
+        // Add event listener to the button to open the modal when clicked
+        document.getElementById('bookingRequestBtn').addEventListener('click', openBookingRequestModal);
+    </script>
+    
+</body>
+</html>

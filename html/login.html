@@ -90,8 +90,7 @@
   .then(response => {
         if (response.ok) {
             // If login is successful (HTTP status code 200), redirect to the dashboard
-            localStorage.setItem('email', document.getElementById('email').value);
-            window.location.href = 'dashboard.html';
+            return response.json();
         } else if (response.status === 401) {
             // If login fails due to invalid credentials (HTTP status code 401), display an error message
             alert("Invalid email or password. Please try again.");
@@ -102,10 +101,16 @@
             window.location.href = 'login.html';
         }
     })
-  .then(data => {
-    // Log the response data (if needed)
-    console.log(data);
-  })
+    .then(data => {
+    // Store values in localStorage
+    localStorage.setItem('currUserId', data.currUserId);
+    localStorage.setItem('uuid', data.uuid);
+    localStorage.setItem('currRole', data.currRole);
+    localStorage.setItem('currStatus', data.currStatus);
+
+    // Redirect to dashboard
+    window.location.href = 'dashboard.html';
+})
   .catch(error => {
     console.error('Error:', error);
   });

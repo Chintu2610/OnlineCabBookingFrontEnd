@@ -2,21 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <meta name="description" content="xm-s1 Admin Template">
-    <meta name="keywords" content="admin, Cryptocurrency, account management">
-    <meta name="author" content="Weblabs - Admin Template">
-    <meta name="robots" content="noindex, nofollow">
-    <title>cabBooking Profile</title>
-    <link rel="shortcut icon" href="../assets/logo.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Add your CSS includes here -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+
+    <!-- Lineawesome CSS -->
     <link rel="stylesheet" href="../css/line-awesome.min.css">
-    <link rel="stylesheet" href="../css/select2.min.css">
-    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/M.css">
+    <!-- Add any additional CSS files if needed -->
+    <style>
+        /* Flexbox styles for layout */
+        .container {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping to next row */
+        }
+        .sidebar {
+            width: 15%; /* Adjust as needed */
+        }
+        .page-wrapper {
+            width: 75%; /* Adjust as needed */
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+    
 </head>
 <body>
     <div class="main-wrapper">
+        <div id="header"></div>
+        
+        <div class="sidebar" style="width: 200px;">
+            <iframe src="sidebar.html" width="100%" height="650px" frameborder="0"></iframe>
+        </div>
         <div class="page-wrapper">
             <!-- Page Content -->
             <div class="content container-fluid">
@@ -38,6 +64,7 @@
                         <h2>Profile Information</h2>
                     </div>
                 </div>
+                <form id="profileForm">
                 <!-- userID, ReferrerUsername -->
                 <div class="row">
                     <div class="col-md-6">
@@ -48,25 +75,12 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>First Name <span class="text-danger">*</span></label>
-                            <input type="text" id="firstname" name="firstname" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Last Name <span class="text-danger">*</span></label>
-                            <input type="text" id="lastname" name="lastname" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
                             <label>Email<span class="text-danger">*</span></label>
                             <input type="text" id="email" name="email" class="form-control">
                         </div>
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -80,47 +94,124 @@
                             <input type="text" id="phone" name="phone" class="form-control">
                         </div>
                     </div>
+                    
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" id="address" name="address" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="display: none;">
+                        <div class="form-group" >
+                            <label>Password</label>
+                            <input type="text" id="password" name="password" class="form-control" >
+                        </div>
+                    </div>
+                    </div>
                 <div class="col-md-12 text-center">
                     <div class="form-group">
                         <input type="submit" value="Submit" class="btn btn-primary">
                     </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
     <!-- Js Link -->
-    <script src="js/jquery-3.2.1.min.js"></script> 
-    <script src="js/popper.min.js"></script> 
-    <script src="js/bootstrap.min.js"></script> 
-    <script src="js/jquery.slimscroll.min.js"></script> 
+    <script src="../js/jquery-3.2.1.min.js"></script> 
+    
+    <script src="../js/bootstrap.min.js"></script> 
     <!-- End Js Link -->
     
     <!-- Profile Script -->
     <script>
+         
         // Function to fetch data from API and populate the input fields
         function populateFields() {
-            fetch('https://example.com/api/user/profile') // Replace this URL with your API endpoint
-                .then(response => response.json())
-                .then(data => {
-                    // Assuming data is returned in JSON format with keys matching input field ids
-                    Object.keys(data).forEach(function(key) {
-                        var element = document.getElementById(key);
-                        if (element) {
-                            element.value = data[key];
-                        }
-                    });
-                })
-                .catch(error => {
+            
+            var userId = localStorage.getItem('currUserId');
+            var uuId=localStorage.getItem('uuid');
+            var url = 'http://localhost:1995/customer/viewCustomerProfile';
+            url += '?customerId='+userId; // Example: Replace param1 and value1 with your actual request variables
+            url += '&uuid='+uuId;
+            $.ajax({
+                url: url, // Replace this URL with your API endpoint
+                type: 'GET',
+                success: function(data) {
+                    $('#username').val(data.userName);
+                    $('#address').val(data.address);
+                    $('#phone').val(data.mobileNumber);
+                    $('#email').val(data.email);
+                    $('#userid').val(data.customerId);
+                    $('#password').val(data.password);
+                },
+                error: function(xhr, status, error) {
                     console.error('Error fetching data:', error);
-                });
+                }
+            });
         }
 
         // Call the populateFields function when the page loads
-        window.onload = function() {
+        $(document).ready(function() {
             populateFields();
-        };
+        });
+    </script>
+    <script>
+        var userrole = localStorage.getItem('currRole');
+        // Function to handle form submission
+        $('#profileForm').submit(function(e) {
+            e.preventDefault(); // Prevent the default form submission
+    
+            // Collect updated details from form fields
+            var updatedDetails = {
+                email: $('#email').val(),
+                userName:$('#username').val(),
+                password:$('#password').val(),
+                address:$('#address').val(),
+                mobileNumber:$('#phone').val(),
+                userRole:userrole,
+                customerId:parseInt($('#userid').val())
+            };
+            console.log(updatedDetails);
+            var uuId=localStorage.getItem('uuid');
+            var url='http://localhost:1995/customer/update';
+            url += '?uuid='+uuId;
+            // AJAX call to update details
+            $.ajax({
+                url: url, // Replace with your backend script URL
+                type: 'PUT',
+                headers: {
+            'Content-Type': 'application/json',
+            },
+                data: JSON.stringify(updatedDetails),
+                success: function(response) {
+                    // Handle success response
+                    alert('Details updated successfully:', response);
+                    // Optionally, perform actions like showing a success message or redirecting
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    alert('Error updating details:', error);
+                    // Optionally, show an error message to the user
+                }
+            });
+        });
     </script>
     <!-- End Profile Script -->
+    <script>
+        // Load header content
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('header').innerHTML = data)
+            .catch(error => console.error('Error fetching header:', error));
+
+        // Load sidebar content
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('sidebar').innerHTML = data)
+            .catch(error => console.error('Error fetching sidebar:', error));
+    </script>
 </body>
 </html>

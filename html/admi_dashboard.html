@@ -1,18 +1,13 @@
+admin_dashboard.html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <!-- Add your CSS includes here -->
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-
-    <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
-
-    <!-- Lineawesome CSS -->
-    <link rel="stylesheet" href="../css/line-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/M.css">
     <!-- Add any additional CSS files if needed -->
@@ -34,7 +29,6 @@
             display: table;
         }
     </style>
-    
 </head>
 <body>
     <div class="main-wrapper">
@@ -57,8 +51,9 @@
                             <div class="col-sm-12">
                                 <!-- Display welcome message -->
                                 <div id="welcomeMessage" style="text-align: center; margin-top: 20px; font-size: 24px;">
-                                    Welcome <span id="username"></span>
+                                    Welcome !
                                 </div>
+                                
                                 <ul class="breadcrumb">
                                     <li class="breadcrumb-item active">Dashboard</li>
                                 </ul>
@@ -72,11 +67,11 @@
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                             <div class="card dash-widget">
                                 <div class="card-body">
-                                    <a href="promotion.jsp" style="text-decoration: none; color: inherit;">
-                                        <span class="dash-widget-icon"><i class="fa fa-upload"></i></span>
+                                    <a href="tripcontroller.html" style="text-decoration: none; color: inherit;">
+                                        <span class="dash-widget-icon"><i class="fa fa-atlas"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>File uploading</span>
+                                            <span>Trip-Controller</span>
                                         </div>
                                     </a>
                                 </div>
@@ -87,11 +82,11 @@
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                             <div class="card dash-widget">
                                 <div class="card-body">
-                                    <a href="promotion_name.jsp" style="text-decoration: none; color: inherit;">
-                                        <span class="dash-widget-icon"><i class="fa fa-whatsapp"></i></span>
+                                    <a href="Drivercontroller.html" style="text-decoration: none; color: inherit;">
+                                        <span class="dash-widget-icon"><i class="fa fa-car"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>Send by Name</span>
+                                            <span>Driver-Controller</span>
                                         </div>
                                     </a>
                                 </div>
@@ -102,30 +97,46 @@
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                             <div class="card dash-widget">
                                 <div class="card-body">
-                                    <a href="promotion_groupid.jsp" style="text-decoration: none; color: inherit;">
-                                        <span class="dash-widget-icon"><i class="fa fa-group"></i></span>
+                                    <a href="CabController.html" style="text-decoration: none; color: inherit;">
+                                        <span class="dash-widget-icon"><i class="fa fa-taxi"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>Send by Group</span>
+                                            <span>Cab-Controller</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                            <div class="card dash-widget">
+                                <div class="card-body">
+                                    <a href="CustomerControler.html" style="text-decoration: none; color: inherit;">
+                                        <span class="dash-widget-icon"><i class="fa fa-restroom"></i></span>
+                                        <div class="dash-widget-info">
+                                            <h3></h3>
+                                            <span>Customer-Controller</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Widget 4 -->
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                            <div class="card dash-widget">
+                                <div class="card-body">
+                                    <a href="adminControlller.html" style="text-decoration: none; color: inherit;">
+                                        <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
+                                        <div class="dash-widget-info">
+                                            <h3></h3>
+                                            <span>Admin-Controller</span>
                                         </div>
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Widget 4 -->
-                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                            <div class="card dash-widget">
-                                <div class="card-body">
-                                    <a href="report.jsp" style="text-decoration: none; color: inherit;">
-                                        <span class="dash-widget-icon"><i class="fa fa-wpforms"></i></span>
-                                        <div class="dash-widget-info">
-                                            <h3></h3>
-                                            <span>Reports</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
+
+                        
                         </div>
                     </div>
                     <!-- End Dashboard Widgets -->
@@ -136,23 +147,7 @@
         </div>
     </div>
     </div>
-    <script>
-        // Retrieve UID from localStorage
-        var role = localStorage.getItem('currUserId');
-        document.getElementById("username").textContent=role;
-    </script>
-    <script>
-        // Retrieve UID from localStorage
-        var uuid = localStorage.getItem('uuid');
-        if (!uuid) {
-            // If UUID doesn't exist, redirect to login page
-            window.location.href = 'login.html';
-        } else {
-            // If UUID exists, display the username
-            var username = localStorage.getItem('currUserId');
-            document.getElementById("username").textContent = username;
-        }
-    </script>
+
     <!-- Add your JavaScript includes here -->
     <script src="../js/jquery-3.2.1.min.js"></script>
     <!-- Other JavaScript includes -->
@@ -160,7 +155,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
     <!-- Add any additional scripts if needed -->
-    <script>
+    <script> 
         // Load header content
         fetch('header.html')
             .then(response => response.text())
@@ -173,5 +168,25 @@
             .then(data => document.getElementById('sidebar').innerHTML = data)
             .catch(error => console.error('Error fetching sidebar:', error));
     </script>
+
+<script>
+    // Function to retrieve the value of a cookie by its name
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+        return null;
+    }
+
+    // Check if the 'email' cookie exists and display the welcome message
+    const userEmail = getCookie('uuid');
+    if (userEmail) {
+        document.getElementById('welcomeMessage').innerText = Welcome ${userEmail}!;
+    }
+</script>
 </body>
 </html>
