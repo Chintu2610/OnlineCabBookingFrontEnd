@@ -67,54 +67,72 @@
         <input type="text" id="email" name="email" required>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
+        <label for="userType">Select User Type:</label>
+        <select id="userType" style="width:180px;padding:6px;border-radius: 10px;"  required>
+          <option value="admin">Admin</option>
+          <option value="customer">Customer</option>
+          <option value="driver">Driver</option>
+        </select>
+        </br><br>
         <input type="submit" value="Login">
+        
+        
     </form>
 </div>
+
 <script>
     document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-  const formData = {
-    email: document.getElementById('email').value,
-    password: document.getElementById('password').value,    
-  };
-  
-  // Replace 'http://localhost:1995/customer/register' with your actual backend API URL
-  fetch('http://localhost:1995/Userlogin/Login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(formData),
-  })
-  .then(response => {
+      event.preventDefault();
+    
+      const formData = {
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        userType: document.getElementById('userType').value // Added userType field
+      };
+    
+      fetch('http://localhost:1995/Userlogin/Login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      .then(response => {
         if (response.ok) {
-            // If login is successful (HTTP status code 200), redirect to the dashboard
-            return response.json();
+          return response.json();
         } else if (response.status === 401) {
-            // If login fails due to invalid credentials (HTTP status code 401), display an error message
-            alert("Invalid email or password. Please try again.");
-            window.location.href = 'login.html';
+          alert("Invalid email or password. Please try again.");
         } else {
-            // If login fails for any other reason, display a generic error message
-            alert("An unexpected error occurred. Please try again later.");
-            window.location.href = 'login.html';
+          alert("An unexpected error occurred. Please try again later.");
         }
-    })
-    .then(data => {
-    // Store values in localStorage
-    localStorage.setItem('currUserId', data.currUserId);
-    localStorage.setItem('uuid', data.uuid);
-    localStorage.setItem('currRole', data.currRole);
-    localStorage.setItem('currStatus', data.currStatus);
-
-    // Redirect to dashboard
-    window.location.href = 'dashboard.html';
-})
-  .catch(error => {
-    console.error('Error:', error);
-  });
-});
-</script>
+        window.location.href = 'login.html'; // Redirect to login page on error or invalid credentials
+      })
+      .then(data => {
+        localStorage.setItem('currUserId', data.currUserId);
+        localStorage.setItem('uuid', data.uuid);
+        localStorage.setItem('currRole', data.currRole);
+        localStorage.setItem('currStatus', data.currStatus);
+    
+        // Redirect based on user type
+        switch (formData.userType) {
+          case 'admin':
+            window.location.href = 'admin_dashboard.html'; // Redirect to admin dashboard
+            break;
+          case 'customer':
+            window.location.href = 'dashboard.html'; // Redirect to customer dashboard
+            break;
+          case 'driver':
+            window.location.href = 'driver_dashboard.html'; // Redirect to driver dashboard
+            break;
+          default:
+            window.location.href = 'login.html'; // Redirect to login page if user type is not recognized
+            break;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+    </script>
 </body>
 </html>

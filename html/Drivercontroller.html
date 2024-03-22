@@ -60,7 +60,7 @@
 							<h3 class="page-title">Driver Conntroller</h3>
 							<ul class="breadcrumb">
 								<li class="breadcrumb-item"><a
-									href="admi_dashboard.html">Dashboard</a></li>
+									href="admin_dashboard.html">Dashboard</a></li>
 								<li class="breadcrumb-item active">Tripcontroller</li>
 							</ul>
 						</div>
@@ -86,7 +86,29 @@
                                 <i class="fa fa-plus"></i> Delete
                             </a>
                         </div>
-                        
+                     <!--retrive table-->   
+                     <div id="driverTableContainer" style="margin-top: 20px;">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User Name</th>
+                                    <th>License Number</th>
+                                    <th>Address</th>
+                                    <th>Mobile Number</th>
+                                    <th>Email</th>
+                                    <th>User Role</th>
+                                    <th>Rating</th>
+                                    <th>Current Location</th>
+                                    <th>Current Driver Status</th>
+                                    <th>Action</th>
+                                    <!-- Add more table headers as needed -->
+                                </tr>
+                            </thead>
+                            <tbody id="driverTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
                        <div>
                         
 					</div>
@@ -136,8 +158,59 @@
     // Check if the 'email' cookie exists and display the welcome message
     const userEmail = getCookie('uuid');
     if (userEmail) {
-        document.getElementById('welcomeMessage').innerText = Welcome ${userEmail}!;
+        document.getElementById('welcomeMessage').innerText = Welcome;
     }
+</script>
+<script>
+    // Fetch and display driver data in the table
+    // Fetch and display driver data in the table
+   // Fetch and display driver data in the table using GET method
+   function fetchAndDisplayDrivers() {
+    fetch('http://localhost:1995/driver/AllDriver', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response data:', data); // Log the response data for debugging
+
+        const driverTableBody = document.getElementById('driverTableBody');
+        driverTableBody.innerHTML = ''; // Clear existing rows
+        
+        if (data && data.length > 0) {
+            data.forEach(driver => {
+                const row = driverTableBody.insertRow();
+                row.insertCell(0).textContent = driver.driverId || ''; // Handle null or undefined values
+                row.insertCell(1).textContent = driver.userName || '';
+                row.insertCell(2).textContent = driver.licenceNo || '';
+                row.insertCell(3).textContent = driver.address || '';
+                row.insertCell(4).textContent = driver.mobileNumber || '';
+                row.insertCell(5).textContent = driver.email || '';
+                row.insertCell(6).textContent = driver.userRole || '';
+                row.insertCell(7).textContent = driver.rating || '';
+                row.insertCell(8).textContent = driver.currLocation || '';
+                row.insertCell(9).textContent = driver.currDriverStatus || '';
+                // Add more cells for additional driver data if needed
+            });
+        } else {
+            console.log('No data found.');
+            // You can display a message or handle empty data case here
+        }
+    })
+    .catch(error => console.error('Error fetching drivers:', error));
+}
+
+
+
+    // Call fetchAndDisplayDrivers when the page loads
+    window.onload = fetchAndDisplayDrivers;
 </script>
 </body>
 </html>
