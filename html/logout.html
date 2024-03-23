@@ -66,56 +66,46 @@
 <div class="container">
     <img src="/assets/CabLogo.png" alt="Logo" class="logo">
     <h2>Logout</h2>
-    <div id="welcomeMessage" style="text-align: center; margin-top: 20px; font-size: 24px;">
-        Welcome !
-    </div>
+    
 <br><br>
-    <form id="logoutForm"  >
-        <!-- <label for="uuid123">uuid</label>
-        <input type="text" id="uuid123" name="uuid" required>
-        <br><br> -->
-        <input type="submit" value="Logout">
-    </form>
+    
 </div>
 
 <script>
-    var uuId=localStorage.getItem('uuid');
-    document.getElementById('logoutForm').addEventListener('submit', function(event) {
-     event.preventDefault();
-         var url='http://localhost:1995/Userlogin/logout';
-         url+='?uuid='+uuId;
-     alert(url);
-              
-             fetch(url, {
-                 method: 'GET',
-                 headers: {
-                     'Content-Type': 'application/json',
-                 }
-             })
-   .then(response => {
-         if (response.ok) {
-            localStorage.removeItem('currUserId');
-            localStorage.removeItem('uuid');
-            localStorage.removeItem('currRole');
-            localStorage.removeItem('currStatus');
-             window.location.href = 'login.html';
-         } else if (response.status === 401) {
-             alert("Invalid uuid. Please try again.");
-             window.location.href = 'logout.html';
-         } else {
-             alert("An unexpected error occurred. Please try again later.");
-             window.location.href = 'logout.html';
-         }
-     })
-   .then(data => {
-     console.log(data);
-   })
-   .catch(error => {
-     console.error('Error:', error);
-   });
- });
+    // Execute this function when the page is loaded
+    window.onload = function() {
+        var uuId = localStorage.getItem('uuid');
+        if (uuId) { // Check if uuid exists in local storage
+            var url = 'http://localhost:1995/Userlogin/logout';
+            url += '?uuid=' + uuId;
 
-</script> 
+            fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        localStorage.removeItem('currUserId');
+                        localStorage.removeItem('uuid');
+                        localStorage.removeItem('currRole');
+                        localStorage.removeItem('currStatus');
+                        window.location.href = 'login.html';
+                    } else if (response.status === 401) {
+                        alert("Invalid uuid. Please try again.");
+                        window.location.href = 'logout.html';
+                    } else {
+                        alert("An unexpected error occurred. Please try again later.");
+                        window.location.href = 'logout.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    };
+</script>
 
 </body>
 </html>
