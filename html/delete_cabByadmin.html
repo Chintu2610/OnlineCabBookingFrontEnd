@@ -25,8 +25,8 @@
     }
 
     .logo {
-        width: 150px; /* Adjust the width as needed */
-        margin-bottom: 20px; /* Add some space between logo and login */
+        width: 150px; 
+        margin-bottom: 20px; 
     }
     
     h2 {
@@ -69,21 +69,14 @@
     <form id="deleteForm"  >
 
 
-        <label for="customerId">customerid</label>
+        <label for="customerId">cabid</label>
         <input type="text" id="customerId" name="customerId" required>
         <br><br>
-        <!-- 
-        <label for="uuid123">uuid</label>
-        <input type="text" id="uuid123" name="uuid" required>
-        <br><br> -->
         <input type="submit" value="Logout">
     </form>
 </div>
-
  <script>
-
- // Retrieve UID from localStorage
- var uuidd = localStorage.getItem('uuid');
+    var uuidd = localStorage.getItem('uuid');
     if (uuidd) {
         document.getElementById('welcomeMessage').innerText = `Welcome ${uuidd}!`;
     }
@@ -94,9 +87,9 @@
 
 
   var customerId= document.getElementById('customerId').value;
-  var url='http://localhost:1995/customer/delete';
+  var url='http://localhost:1995/cab/delete';
     url+='?uuid='+uuidd;
-    url+='&customerId='+customerId;
+    url+='&cabId='+customerId;
   alert(url);
   fetch(url, {
     method: 'DELETE',
