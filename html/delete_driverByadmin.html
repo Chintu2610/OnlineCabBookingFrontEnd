@@ -25,8 +25,8 @@
     }
 
     .logo {
-        width: 150px; /* Adjust the width as needed */
-        margin-bottom: 20px; /* Add some space between logo and login */
+        width: 150px; 
+        margin-bottom: 20px; 
     }
     
     h2 {
@@ -66,14 +66,20 @@
         Welcome !
     </div>
 <br><br>
-    
+    <!-- <form id="deleteForm"  >
+
+
+        <label for="customerId">DriverId</label>
+        <input type="text" id="customerId" name="customerId" required>
+        <br><br>
+        <input type="submit" value="Logout">
+    </form> -->
 </div>
 
-<script>
-    // Retrieve UID from localStorage
-    var uuidd = localStorage.getItem('uuid');
 
-    // Function to get query parameter from URL
+
+<script>
+    var uuidd = localStorage.getItem('uuid');
     function getQueryParam(parameterName) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(parameterName);
@@ -82,7 +88,7 @@
     window.onload = function() {
         var customerId = getQueryParam('customerId');
         if (customerId) {
-            var url = 'http://localhost:1995/customer/delete';
+            var url = 'http://localhost:1995/driver/delete';
             url += '?uuid=' + uuidd;
             url += '&customerId=' + customerId;
 
@@ -94,7 +100,7 @@
                 })
                 .then(response => {
                     if (response.ok) {
-                        window.location.href = 'CustomerControler.html';
+                        window.location.href = 'DriverControler.html';
                     } else if (response.status === 401) {
                         alert("Invalid uuid. Please try again.");
                         window.location.href = 'delete_customerByadmin.html';

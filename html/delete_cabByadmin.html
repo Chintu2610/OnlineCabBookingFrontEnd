@@ -25,8 +25,8 @@
     }
 
     .logo {
-        width: 150px; /* Adjust the width as needed */
-        margin-bottom: 20px; /* Add some space between logo and login */
+        width: 150px; 
+        margin-bottom: 20px; 
     }
     
     h2 {
@@ -66,7 +66,6 @@
         Welcome !
     </div>
 <br><br>
-    
 </div>
 
 <script>
@@ -80,11 +79,11 @@
     }
 
     window.onload = function() {
-        var customerId = getQueryParam('customerId');
-        if (customerId) {
-            var url = 'http://localhost:1995/customer/delete';
+        var cabId = getQueryParam('cabId');
+        if (cabId) {
+            var url = 'http://localhost:1995/cab/delete';
             url += '?uuid=' + uuidd;
-            url += '&customerId=' + customerId;
+            url += '&cabId=' + cabId;
 
             fetch(url, {
                     method: 'DELETE',
@@ -94,7 +93,7 @@
                 })
                 .then(response => {
                     if (response.ok) {
-                        window.location.href = 'CustomerControler.html';
+                        window.location.href = 'CabController.html';
                     } else if (response.status === 401) {
                         alert("Invalid uuid. Please try again.");
                         window.location.href = 'delete_customerByadmin.html';
