@@ -162,9 +162,7 @@
     }
 </script>
 <script>
-    // Fetch and display driver data in the table
-    // Fetch and display driver data in the table
-   // Fetch and display driver data in the table using GET method
+
    function fetchAndDisplayDrivers() {
     fetch('http://localhost:1995/driver/AllDriver', {
         method: 'GET',
@@ -179,15 +177,15 @@
         return response.json();
     })
     .then(data => {
-        console.log('Response data:', data); // Log the response data for debugging
+        console.log('Response data:', data); 
 
         const driverTableBody = document.getElementById('driverTableBody');
-        driverTableBody.innerHTML = ''; // Clear existing rows
+        driverTableBody.innerHTML = ''; 
         
         if (data && data.length > 0) {
             data.forEach(driver => {
                 const row = driverTableBody.insertRow();
-                row.insertCell(0).textContent = driver.driverId || ''; // Handle null or undefined values
+                row.insertCell(0).textContent = driver.driverId || ''; 
                 row.insertCell(1).textContent = driver.userName || '';
                 row.insertCell(2).textContent = driver.licenceNo || '';
                 row.insertCell(3).textContent = driver.address || '';
@@ -197,11 +195,9 @@
                 row.insertCell(7).textContent = driver.rating || '';
                 row.insertCell(8).textContent = driver.currLocation || '';
                 row.insertCell(9).textContent = driver.currDriverStatus || '';
-                // Add more cells for additional driver data if needed
             });
         } else {
             console.log('No data found.');
-            // You can display a message or handle empty data case here
         }
     })
     .catch(error => console.error('Error fetching drivers:', error));
