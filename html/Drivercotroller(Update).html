@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
    
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/M.css">
+   <link rel="stylesheet" href="../css/M.css">
     <!-- Add any additional CSS files if needed -->
     <style>
         /* Flexbox styles for layout */
@@ -31,7 +31,7 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color: white;">
     <div class="main-wrapper">
         <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
@@ -46,59 +46,99 @@
             <div class="content container-fluid">
                 <!-- Page Header -->
                 <div class="page-header">
-                        <div class="modal-header">
-                        <h2 class="modal-title">Driver Controller</h2>
-                  <div class="col">
-               <br><br><br><div class="form-group">
-                    <label class="col-form-label">UUID  <span class="text-danger">*</span></label>
-                    <input  id="userid" name="Amount" required class="form-control" type="text">
-                </div>
-          
-                <div class="form-group">
-                    <label class="col-form-label">User Name<span class="text-danger">*</span></label>
-                    <input name="Amount" id="username" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Password<span class="text-danger">*</span></label>
-                    <input name="Amount" id="password" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Address<span class="text-danger">*</span></label>
-                    <input name="Amount" id="address" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Mobile Number<span class="text-danger">*</span></label>
-                    <input name="Amount" required id="phone" class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Email<span class="text-danger">*</span></label>
-                    <input name="Amount" id="email" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">User Role<span class="text-danger">*</span></label>
-                    <input name="Amount" id="userrole" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Driver ID<span class="text-danger">*</span></label>
-                    <input name="Amount" id="driverid" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Licence Number<span class="text-danger">*</span></label>
-                    <input name="Amount" id="licencenum" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Rating<span class="text-danger">*</span></label>
-                    <input name="Amount" id="rating" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Current Location<span class="text-danger">*</span></label>
-                    <input name="Amount" id="currenloc" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Current Driver Stattus<span class="text-danger">*</span></label>
-                    <input name="Amount" id="driverstatus" required class="form-control" type="text">
-                </div>
-            </div>   
+                    <div class="col">
+                        
+                        <h3 class="page-title">Update</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a
+                                href="admin_dashboard.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Update</li>
+                        </ul>
+                    </div>
+                  <br><br><br><div class="col" >
+                    <div class="container-fluid" style="width: 100%; max-width: 1100px; background-color: #F5F5F5; padding: 20px; border-radius: 10px; margin-right: 60px;">
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label class="col-form-label">UUID <span class="text-danger">*</span></label>
+                            <input id="userid" name="Amount" required class="form-control" type="text">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-form-label">User Name <span class="text-danger">*</span></label>
+                            <input name="Amount" id="username" required class="form-control" type="text">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label class="col-form-label">Password <span class="text-danger">*</span></label>
+                            <input name="Amount" id="password" required class="form-control" type="text">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-form-label">Address <span class="text-danger">*</span></label>
+                            <input name="Amount" id="address" required class="form-control" type="text">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Mobile Number<span class="text-danger">*</span></label>
+                                <input name="Amount" required id="phone" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Email<span class="text-danger">*</span></label>
+                                <input name="Amount" id="email" required class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">User Role<span class="text-danger">*</span></label>
+                                <input name="Amount" id="userrole" required class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Driver ID<span class="text-danger">*</span></label>
+                                <input name="Amount" id="driverid" required class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Licence Number<span class="text-danger">*</span></label>
+                                <input name="Amount" id="licencenum" required class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Rating<span class="text-danger">*</span></label>
+                                <input name="Amount" id="rating" required class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Current Location<span class="text-danger">*</span></label>
+                                <input name="Amount" id="currenloc" required class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Current Driver Status<span class="text-danger">*</span></label>
+                                <input name="Amount" id="driverstatus" required class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    
+            </div>  
+            </div> 
         </div>
         
         <div class="submit-section">
@@ -213,7 +253,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(updatedData),
                 success: function(response) {
-                   
+                    window.location.href = 'Drivercontroller.html';
                     // Optionally, perform actions like showing a success message or redirecting
                 },
                 error: function(xhr, status, error) {
