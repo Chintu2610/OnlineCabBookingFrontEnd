@@ -30,17 +30,6 @@
             clear: both;
             display: table;
         }
-
-        /* Custom styles for Update and Delete buttons */
-        .btn-update {
-            background-color: rgba(250, 15, 250, 0.837);
-            border-radius: 15px;
-        }
-
-        .btn-delete {
-            background-color: rgb(250, 9, 250);
-            border-radius: 15px;
-        }
     </style>
 </head>
 <body>
@@ -113,7 +102,7 @@
                                     <th>Current Location</th>
                                     <th>Current Driver Status</th>
                                     <th>Action</th>
-                                    
+                                    <!-- Add more table headers as needed -->
                                 </tr>
                             </thead>
                             <tbody id="driverTableBody"></tbody>
@@ -139,7 +128,6 @@
     <!-- Other JavaScript includes -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-    
     <script> 
         // Load header content
         fetch('header.html')
@@ -152,171 +140,59 @@
             .then(response => response.text())
             .then(data => document.getElementById('sidebar').innerHTML = data)
             .catch(error => console.error('Error fetching sidebar:', error));
-
-        // Handle click events for Update and Delete buttons
-        document.addEventListener('DOMContentLoaded', () => {
-            const updateButton = document.querySelector('.btn-update');
-            const deleteButton = document.querySelector('.btn-delete');
-
-            updateButton.addEventListener('click', () => {
-                window.location.href = 'Drivercotroller(Update).html';
-            });
-
-            deleteButton.addEventListener('click', () => {
-                window.location.href = 'TripCotroller(SearchCab).html';
-            });
-        });
     </script>
 
 
-<!-- <script>
-    // Fetch and display driver data in the table using GET method
-    function fetchAndDisplayDrivers() {
-        fetch('http://localhost:1995/driver/AllDriver', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Response data:', data); // Log the response data for debugging
+<script>
+    // Fetch and display driver data in the table
+    // Fetch and display driver data in the table
+   // Fetch and display driver data in the table using GET method
+   function fetchAndDisplayDrivers() {
+    fetch('http://localhost:1995/driver/AllDriver', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response data:', data); // Log the response data for debugging
 
-            const driverTableBody = document.getElementById('driverTableBody');
-            driverTableBody.innerHTML = ''; // Clear existing rows
-            
-            if (data && data.length > 0) {
-                data.forEach(driver => {
-                    const row = driverTableBody.insertRow();
-                    row.insertCell(0).textContent = driver.driverId || ''; // Handle null or undefined values
-                    row.insertCell(1).textContent = driver.userName || '';
-                    row.insertCell(2).textContent = driver.licenceNo || '';
-                    row.insertCell(3).textContent = driver.address || '';
-                    row.insertCell(4).textContent = driver.mobileNumber || '';
-                    row.insertCell(5).textContent = driver.email || '';
-                    row.insertCell(6).textContent = driver.userRole || '';
-                    row.insertCell(7).textContent = driver.rating || '';
-                    row.insertCell(8).textContent = driver.currLocation || '';
-                    row.insertCell(9).textContent = driver.currDriverStatus || '';
+        const driverTableBody = document.getElementById('driverTableBody');
+        driverTableBody.innerHTML = ''; // Clear existing rows
+        
+        if (data && data.length > 0) {
+            data.forEach(driver => {
+                const row = driverTableBody.insertRow();
+                row.insertCell(0).textContent = driver.driverId || ''; // Handle null or undefined values
+                row.insertCell(1).textContent = driver.userName || '';
+                row.insertCell(2).textContent = driver.licenceNo || '';
+                row.insertCell(3).textContent = driver.address || '';
+                row.insertCell(4).textContent = driver.mobileNumber || '';
+                row.insertCell(5).textContent = driver.email || '';
+                row.insertCell(6).textContent = driver.userRole || '';
+                row.insertCell(7).textContent = driver.rating || '';
+                row.insertCell(8).textContent = driver.currLocation || '';
+                row.insertCell(9).textContent = driver.currDriverStatus || '';
+                // Add more cells for additional driver data if needed
+            });
+        } else {
+            console.log('No data found.');
+            // You can display a message or handle empty data case here
+        }
+    })
+    .catch(error => console.error('Error fetching drivers:', error));
+}
 
-                    // Create Update button
-                    const updateButton = document.createElement('button');
-                    updateButton.textContent = 'Update';
-                    updateButton.classList.add('btn', 'btn-primary', 'mr-2', 'btn-update'); // Add 'btn-update' class
-                    updateButton.addEventListener('click', () => {
-                        // Handle update logic here, e.g., open a modal
-                        console.log('Update button clicked for driver ID:', driver.driverId);
-                    });
-                    const updateCell = row.insertCell(10);
-                    updateCell.appendChild(updateButton);
 
-                    // Create Delete button
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Delete';
-                    deleteButton.classList.add('btn', 'btn-danger', 'btn-delete'); // Add 'btn-delete' class
-                    deleteButton.addEventListener('click', () => {
-                        // Handle delete logic here, e.g., confirm deletion and send request
-                        console.log('Delete button clicked for driver ID:', driver.driverId);
-                    });
-                    const deleteCell = row.insertCell(11);
-                    deleteCell.appendChild(deleteButton);
-                });
-            } else {
-                console.log('No data found.');
-                // You can display a message or handle empty data case here
-            }
-        })
-        .catch(error => console.error('Error fetching drivers:', error));
-    }
 
     // Call fetchAndDisplayDrivers when the page loads
     window.onload = fetchAndDisplayDrivers;
-</script> -->
-
-<script>
-        // Function to handle the update button click
-        function handleUpdateClick(driverId) {
-            localStorage.setItem('driverid',driverId);
-            window.location.href = 'Drivercotroller(Update).html';
-        }
-
-        // Function to handle the delete button click
-        function handleDeleteClick(driverId) {
-            window.location.href = 'TripCotroller(SearchCab).html';
-        }
-
-        // Fetch and display driver data in the table using GET method
-        
-        function fetchAndDisplayDrivers() {
-            fetch('http://localhost:1995/driver/AllDriver', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Response data:', data); // Log the response data for debugging
-
-                const driverTableBody = document.getElementById('driverTableBody');
-                driverTableBody.innerHTML = ''; // Clear existing rows
-                
-                if (data && data.length > 0) {
-                    data.forEach(driver => {
-                        const row = driverTableBody.insertRow();
-                        row.insertCell(0).textContent = driver.driverId || ''; // Handle null or undefined values
-                        row.insertCell(1).textContent = driver.userName || '';
-                        row.insertCell(2).textContent = driver.licenceNo || '';
-                        row.insertCell(3).textContent = driver.address || '';
-                        row.insertCell(4).textContent = driver.mobileNumber || '';
-                        row.insertCell(5).textContent = driver.email || '';
-                        row.insertCell(6).textContent = driver.userRole || '';
-                        row.insertCell(7).textContent = driver.rating || '';
-                        row.insertCell(8).textContent = driver.currLocation || '';
-                        row.insertCell(9).textContent = driver.currDriverStatus || '';
-
-                        // Create Update button
-                        const updateButton = document.createElement('button');
-                        updateButton.textContent = 'Update';
-                        updateButton.classList.add('btn', 'btn-primary', 'mr-2');
-                        updateButton.addEventListener('click', () => {
-                            handleUpdateClick(driver.driverId);
-                        });
-                        const updateCell = row.insertCell(10);
-                        updateCell.appendChild(updateButton);
-
-                        // Create Delete button
-                        const deleteButton = document.createElement('button');
-                        deleteButton.textContent = 'Delete';
-                        deleteButton.classList.add('btn', 'btn-danger');
-                        deleteButton.addEventListener('click', () => {
-                            handleDeleteClick(driver.driverId);
-                        });
-                        const deleteCell = row.insertCell(11);
-                        deleteCell.appendChild(deleteButton);
-                    });
-                } else {
-                    console.log('No data found.');
-                    // You can display a message or handle empty data case here
-                }
-            })
-            .catch(error => console.error('Error fetching drivers:', error));
-        }
-
-        // Call fetchAndDisplayDrivers when the page loads
-        window.onload = fetchAndDisplayDrivers;
-    </script>
-
-
+</script>
 </body>
 </html>
