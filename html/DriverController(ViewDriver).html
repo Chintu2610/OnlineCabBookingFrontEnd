@@ -32,7 +32,7 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color: white;">
     <div class="main-wrapper">
         <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
@@ -47,18 +47,28 @@
             <div class="content container-fluid">
                 <!-- Page Header -->
                 <div class="page-header">
-                        <div class="modal-header">
-                        <h2 class="modal-title">View Drivers</h2>
-                  <div class="col">
-               <br><br><br><div class="form-group">
+                    <div class="col">
+                        
+                        <h3 class="page-title">View Drivers</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a
+                                href="admin_dashboard.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active">View Drivers</li>
+                        </ul>
+                    </div>
+                  <br><br><div class="col">
+                    <div class="container-fluid" style="width: 80%; max-width: 1100px; background-color: #F5F5F5; padding: 20px; border-radius: 10px; margin-right: 60px;">
+
+           <div class="form-group">
                     <label class="col-form-label">Driver ID<span class="text-danger">*</span></label>
                     <input name="Amount" required class="form-control" type="text">
                 </div>
+                </div>
           
-            </div>   
-        </div>
+               </div>   
+    
         
-         <div class="submit-section">
+         <br><div class="submit-section">
             <button type="submit" class="btn btn-primary submit-btn">Submit</button>
           </div>
           </div>

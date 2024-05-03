@@ -15,24 +15,32 @@
     <!-- Add any additional CSS files if needed -->
     <style>
         /* Flexbox styles for layout */
-        .container {
-            display: flex;
-            flex-wrap: wrap; /* Allow wrapping to the next row */
+        .main-wrapper {
+            
+            flex-direction: row; /* Display items in a row */
+            justify-content: flex-start; /* Align items to the start (left) */
+            align-items: stretch; /* Stretch items to match container height */
         }
         .sidebar {
-            width: 15%; /* Adjust as needed */
+            width: 200px; /* Adjust sidebar width as needed */
         }
         .page-wrapper {
-            width: 75%; /* Adjust as needed */
+         
+            padding: 20px; /* Add padding to content area */
         }
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
+        /* Adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .main-wrapper {
+                flex-direction: column; /* Display items in a column */
+                align-items: center; /* Center items vertically */
+            }
+            .sidebar {
+                width: 100%; /* Full width for smaller screens */
+            }
         }
     </style>
 </head>
-<body>
+<body style="background-color: white;">
     <div class="main-wrapper">
         <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
@@ -47,59 +55,87 @@
             <div class="content container-fluid">
                 <!-- Page Header -->
                 <div class="page-header">
-                        <div class="modal-header">
-                        <h2 class="modal-title">Driver Controller</h2>
-                  <div class="col">
-               <br><br><br><div class="form-group">
-                    <label class="col-form-label">User ID  <span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <!-- Header content here -->
+                    <div class="col">
+                        
+                        <br><br><h3 class="page-title">Register</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a
+                                href="admin_dashboard.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Register</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-form-label">Password<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">User Name<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-               
-                <div class="form-group">
-                    <label class="col-form-label">Address<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Mobile Number<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Email<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">User Role<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Driver ID<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Licence Number<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Rating<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Current Location<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label">Current Driver Stattus<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
-                </div>
-            </div>   
+
+                <!-- Centered User ID container -->
+                <div class="user-id-container d-flex justify-content-center align-items-center">
+                    <div class="container-fluid" style="background-color: #F5F5F5; padding: 20px; border-radius: 10px; margin-right: 60px;">
+                       
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="col-form-label">User ID <span class="text-danger">*</span></label>
+                                <input name="UserID" required class="form-control" type="text">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-form-label">Password <span class="text-danger">*</span></label>
+                                <input name="Password" required class="form-control" type="password">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="col-form-label">User Name <span class="text-danger">*</span></label>
+                                <input name="UserName" required class="form-control" type="text">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-form-label">Address <span class="text-danger">*</span></label>
+                                <input name="Address" required class="form-control" type="text">
+                            </div>
+                        </div>
+                        <!-- Add more pairs of fields in a similar manner -->
+                        
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="col-form-label">Mobile Number <span class="text-danger">*</span></label>
+                                <input name="MobileNumber" required class="form-control" type="text">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-form-label">Email <span class="text-danger">*</span></label>
+                                <input name="Email" required class="form-control" type="email">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="col-form-label">User Role <span class="text-danger">*</span></label>
+                                <input name="UserRole" required class="form-control" type="text">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-form-label">Driver ID <span class="text-danger">*</span></label>
+                                <input name="DriverID" required class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="col-form-label">Licence Number <span class="text-danger">*</span></label>
+                                <input name="LicenceNumber" required class="form-control" type="text">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-form-label">Rating <span class="text-danger">*</span></label>
+                                <input name="Rating" required class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="col-form-label">Current Location <span class="text-danger">*</span></label>
+                                <input name="CurrentLocation" required class="form-control" type="text">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-form-label">Current Driver Status <span class="text-danger">*</span></label>
+                                <input name="CurrentDriverStatus" required class="form-control" type="text">
+                            </div>
+                        </div>
+                        
+            </div> 
+            </div>  
         </div>
         
          <div class="submit-section">

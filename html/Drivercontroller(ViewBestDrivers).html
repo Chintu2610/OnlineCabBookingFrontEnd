@@ -32,7 +32,7 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color: white;">
     <div class="main-wrapper">
         <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
@@ -49,11 +49,24 @@
                 <div class="page-header">
                         <div class="modal-header">
                         <h2 class="modal-title">View Best Drivers</h2>
-                  
-                         </div>
+                        <div class="col">
+                <br><br><br><div class="container-fluid" style="width: 80%; max-width: 1100px; background-color: #F5F5F5; padding: 20px; border-radius: 10px; margin-right: 200px;">
         
+                  <div class="form-group">
+                            <label class="col-form-label">Driver ID<span class="text-danger">*</span></label>
+                            <input name="Amount" required class="form-control" type="text">
+                        </div>
+                </div>
+                  
+                       </div>   
+                    </div>
+                        <br><div class="submit-section">
+                            <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                          </div>
+                        
+        
+         </div>
          
-          </div>
 
     <!-- Add your JavaScript includes here -->
     <script src="../js/jquery-3.6.0.min.js"></script>

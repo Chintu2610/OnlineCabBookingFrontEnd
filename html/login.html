@@ -55,6 +55,19 @@
     input[type="submit"]:hover {
         background-color: #0056b3;
     }
+    body {
+    /* Set background image and ensure it covers the whole page */
+    background-image: url('../assets/taxi\ service.jpg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Optionally, you can add more styles to customize the appearance */
+    font-family: Arial, sans-serif; /* Example font-family */
+    color: #333; /* Example text color */
+}
+html, body {
+    height: 100%;
+}
 </style>
 
 </head>
@@ -75,7 +88,10 @@
         </select>
         </br><br>
         <input type="submit" value="Login">
-        
+      </br>
+    </br>
+          <a class="text-muted float-right" style="margin-left: 120px;" href="forgotPassword.html">Forgot password?</a>
+    
         
     </form>
 </div>
