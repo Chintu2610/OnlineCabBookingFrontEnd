@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
    
     <link rel="stylesheet" href="../css/styles.css">
-   <link rel="stylesheet" href="../css/M.css">
+    <link rel="stylesheet" href="../css/M.css">
     <!-- Add any additional CSS files if needed -->
     <style>
         /* Flexbox styles for layout */
@@ -31,7 +31,7 @@
         }
     </style>
 </head>
-<body style="background-color: white;">
+<body>
     <div class="main-wrapper">
         <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
@@ -46,104 +46,64 @@
             <div class="content container-fluid">
                 <!-- Page Header -->
                 <div class="page-header">
-                    <div class="col">
-                        
-                        <h3 class="page-title">Update</h3>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a
-                                href="admin_dashboard.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Update</li>
-                        </ul>
-                    </div>
-                  <br><br><br><div class="col" >
-                    <div class="container-fluid" style="width: 100%; max-width: 1100px; background-color: #F5F5F5; padding: 20px; border-radius: 10px; margin-right: 60px;">
-
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            <label class="col-form-label">UUID <span class="text-danger">*</span></label>
-                            <input id="userid" name="Amount" required class="form-control" type="text">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="col-form-label">User Name <span class="text-danger">*</span></label>
-                            <input name="Amount" id="username" required class="form-control" type="text">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            <label class="col-form-label">Password <span class="text-danger">*</span></label>
-                            <input name="Amount" id="password" required class="form-control" type="text">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="col-form-label">Address <span class="text-danger">*</span></label>
-                            <input name="Amount" id="address" required class="form-control" type="text">
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Mobile Number<span class="text-danger">*</span></label>
-                                <input name="Amount" required id="phone" class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Email<span class="text-danger">*</span></label>
-                                <input name="Amount" id="email" required class="form-control" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">User Role<span class="text-danger">*</span></label>
-                                <input name="Amount" id="userrole" required class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Driver ID<span class="text-danger">*</span></label>
-                                <input name="Amount" id="driverid" required class="form-control" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Licence Number<span class="text-danger">*</span></label>
-                                <input name="Amount" id="licencenum" required class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Rating<span class="text-danger">*</span></label>
-                                <input name="Amount" id="rating" required class="form-control" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Current Location<span class="text-danger">*</span></label>
-                                <input name="Amount" id="currenloc" required class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Current Driver Status<span class="text-danger">*</span></label>
-                                <input name="Amount" id="driverstatus" required class="form-control" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    
-            </div>  
-            </div> 
+                        <div class="modal-header">
+                        <h2 class="modal-title">Driver Controller</h2>
+                  <div class="col">
+               <br><br><br><div class="form-group">
+                    <label class="col-form-label">UUID  <span class="text-danger">*</span></label>
+                    <input  id="userid" name="Amount" required class="form-control" type="text">
+                </div>
+          
+                <div class="form-group">
+                    <label class="col-form-label">User Name<span class="text-danger">*</span></label>
+                    <input name="Amount" id="username" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Password<span class="text-danger">*</span></label>
+                    <input name="Amount" id="password" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Address<span class="text-danger">*</span></label>
+                    <input name="Amount" id="address" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Mobile Number<span class="text-danger">*</span></label>
+                    <input name="Amount" required id="phone" class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Email<span class="text-danger">*</span></label>
+                    <input name="Amount" id="email" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">User Role<span class="text-danger">*</span></label>
+                    <input name="Amount" id="userrole" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Driver ID<span class="text-danger">*</span></label>
+                    <input name="Amount" id="driverid" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Licence Number<span class="text-danger">*</span></label>
+                    <input name="Amount" id="licencenum" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Rating<span class="text-danger">*</span></label>
+                    <input name="Amount" id="rating" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Current Location<span class="text-danger">*</span></label>
+                    <input name="Amount" id="currenloc" required class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Current Driver Stattus<span class="text-danger">*</span></label>
+                    <input name="Amount" id="driverstatus" required class="form-control" type="text">
+                </div>
+            </div>   
         </div>
         
-        <div class="submit-section">
-            <button id="submitBtn" type="button" class="btn btn-primary submit-btn">Submit</button>
-        </div>
+         <div class="submit-section">
+            <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+          </div>
           </div>
 
     <!-- Add your JavaScript includes here -->
@@ -175,95 +135,46 @@
        
     </script>
 
-<script>
-    // Define the populateFields function
-    function populateFields() {
-       
-        var id = localStorage.getItem('driverid');
-        var uuId = localStorage.getItem('uuid');
-       // Alert the driver ID
-        // Autofill UUID value into the corresponding input field
-        document.getElementById('userid').value = uuId; // Assuming 'userid' is the correct ID for the UUID input field
+    <script>
+        // Define the populateFields function
+        function populateFields() {
+            var id = localStorage.getItem('driverid');
+            alert("Driver ID from localStorage: " + id); // Alert the driver ID
+            var uuId = localStorage.getItem('uuid');
         var url = 'http://localhost:1995/driver/GetDriverDetails';
         url += '?driverid=' + id; // Pass the extracted ID as currUserId
         url += '&uuid=' + uuId;
-        $.ajax({
-            url: url, // Replace this URL with your API endpoint
-            type: 'GET',
-            success: function(data) {
-                $('#username').val(data.userName);
-                $('#password').val(data.password);
-                $('#address').val(data.address);
-                $('#phone').val(data.mobileNumber);
-                $('#email').val(data.email);
-                $('#userrole').val(data.userRole);
-                $('#driverid').val(data.driverId);
-                $('#licencenum').val(data.licenceNo);
-                $('#rating').val(data.rating);
-                $('#currenloc').val(data.currLocation);
-                $('#driverstatus').val(data.currDriverStatus);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching data:', error);
-            }
-        });
-    }
-
-    // Run the populateFields function when the document is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        populateFields();
-    });
-
-</script>
-
-
-
-<script>
-  // Event listener for submit button click
-  $(document).ready(function() {
-            populateFields();
-        });
-
-        // Event listener for submit button click
-        $('#submitBtn').on('click', function() {
-            var updatedData = {
-        uuid: $('#userid').val(),
-        userName: $('#username').val(),
-        password: $('#password').val(),
-        address: $('#address').val(),
-        mobileNumber: $('#phone').val(),
-        email: $('#email').val(),
-        userRole: $('#userrole').val(),
-        driverId: $('#driverid').val(),
-        licenceNo: $('#licencenum').val(),
-        rating: $('#rating').val(),
-        currLocation: $('#currenloc').val(),
-        currDriverStatus: $('#driverstatus').val()
-
-                
-            };
-
-            var driverId = localStorage.getItem('driverid');
-            var url = 'http://localhost:1995/driver/update?driverId=' + driverId;
-
-            // AJAX call to update details
             $.ajax({
-                url: url,
-                type: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify(updatedData),
-                success: function(response) {
-                    window.location.href = 'Drivercontroller.html';
-                    // Optionally, perform actions like showing a success message or redirecting
+                url: url, // Replace this URL with your API endpoint
+                type: 'GET',
+                success: function(data) {
+                    $('#username').val(data.userName);
+                    $('#password').val(data.password);
+                    $('#address').val(data.address);
+                    $('#phone').val(data.mobileNumber);
+                    $('#email').val(data.email);
+                    $('#userrole').val(data.userrole);
+                    $('#driverid').val(data.driverid);
+                    $('#licencenum').val(data.licencenum);
+                    $('#rating').val(data.rating);
+                    $('#currenloc').val(data.currenloc);
+                    $('#driverstatus').val(data.driverstatus);
+                  
                 },
                 error: function(xhr, status, error) {
-                  
-                    // Optionally, show an error message to the user
+                    console.error('Error fetching data:', error);
                 }
             });
+        }
+
+            // Your other logic goes here
+        
+
+        // Run the populateFields function when the document is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            populateFields();
         });
-</script>
-
-
+        // localStorage.removeItem('driverid');
+    </script>
 </body>
 </html>
