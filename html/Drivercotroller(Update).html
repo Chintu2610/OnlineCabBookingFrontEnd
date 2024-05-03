@@ -8,8 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
+   
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/M.css">
     <!-- Add any additional CSS files if needed -->
@@ -51,53 +50,53 @@
                         <h2 class="modal-title">Driver Controller</h2>
                   <div class="col">
                <br><br><br><div class="form-group">
-                    <label class="col-form-label">User ID  <span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <label class="col-form-label">UUID  <span class="text-danger">*</span></label>
+                    <input  id="userid" name="Amount" required class="form-control" type="text">
                 </div>
           
                 <div class="form-group">
                     <label class="col-form-label">User Name<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" id="username" required class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">Password<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" id="password" required class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">Address<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" id="address" required class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">Mobile Number<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" required id="phone" class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">Email<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" id="email" required class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">User Role<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" id="userrole" required class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">Driver ID<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" id="driverid" required class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">Licence Number<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" id="licencenum" required class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">Rating<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" id="rating" required class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">Current Location<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" id="currenloc" required class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label">Current Driver Stattus<span class="text-danger">*</span></label>
-                    <input name="Amount" required class="form-control" type="text">
+                    <input name="Amount" id="driverstatus" required class="form-control" type="text">
                 </div>
             </div>   
         </div>
@@ -108,11 +107,10 @@
           </div>
 
     <!-- Add your JavaScript includes here -->
-    <script src="../js/jquery-3.6.0.min.js"></script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/jquery-3.2.1.min.js"></script>
     <script>
         // Load header content
-        fetch('header.html')//there is not script for it  data-target se vo connect hota
+        fetch('header.html')
             .then(response => response.text())
             .then(data => document.getElementById('header').innerHTML = data)
             .catch(error => console.error('Error fetching header:', error));
@@ -123,33 +121,60 @@
             .then(data => document.getElementById('sidebar').innerHTML = data)
             .catch(error => console.error('Error fetching sidebar:', error));
 
-        // Function to retrieve the value of a cookie by its name
-        function getCookie(name) {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.startsWith(name + '=')) {
-                    return cookie.substring(name.length + 1);
+        // Function to populate fields using URL parameter
+       // function populateFields() {
+           // var urlParams = new URLSearchParams(window.location.search);
+           // alert(urlParams);
+           // var id = urlParams.get('id');
+           // if (id) {
+           //     document.getElementById('userid').value = id;
+          //  }
+      //  }
+
+        // Call the populateFields function when the page loads
+       
+    </script>
+
+    <script>
+        // Define the populateFields function
+        function populateFields() {
+            var id = localStorage.getItem('driverid');
+            alert("Driver ID from localStorage: " + id); // Alert the driver ID
+            var uuId = localStorage.getItem('uuid');
+        var url = 'http://localhost:1995/driver/GetDriverDetails';
+        url += '?driverid=' + id; // Pass the extracted ID as currUserId
+        url += '&uuid=' + uuId;
+            $.ajax({
+                url: url, // Replace this URL with your API endpoint
+                type: 'GET',
+                success: function(data) {
+                    $('#username').val(data.userName);
+                    $('#password').val(data.password);
+                    $('#address').val(data.address);
+                    $('#phone').val(data.mobileNumber);
+                    $('#email').val(data.email);
+                    $('#userrole').val(data.userrole);
+                    $('#driverid').val(data.driverid);
+                    $('#licencenum').val(data.licencenum);
+                    $('#rating').val(data.rating);
+                    $('#currenloc').val(data.currenloc);
+                    $('#driverstatus').val(data.driverstatus);
+                  
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
                 }
-            }
-            return null;
+            });
         }
 
-        // Check if the 'email' cookie exists and display the welcome message
-        const userEmail = getCookie('uuid');
-        if (userEmail) {
-            document.getElementById('welcomeMessage').innerText = `Welcome ${userEmail}!`;
-        }
+            // Your other logic goes here
+        
+
+        // Run the populateFields function when the document is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            populateFields();
+        });
+        // localStorage.removeItem('driverid');
     </script>
-    <script>
-        // Function to open the Booking Request modal
-        function openBookingRequestModal() {
-            $('#Tripcntrbookreq').modal('show'); // Show the modal using Bootstrap's modal method
-        }
-    
-        // Add event listener to the button to open the modal when clicked
-        document.getElementById('bookingRequestBtn').addEventListener('click', openBookingRequestModal);
-    </script>
-    
 </body>
 </html>
