@@ -35,7 +35,7 @@
         <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
         
-        <div class="sidebar" style="width: 200px;">
+        <div class="sidebar"  style="width: 200px;">
             <iframe src="sidebar.html" width="100%" height="650px" frameborder="0"></iframe>
         </div>
 
@@ -70,7 +70,7 @@
                                         <span class="dash-widget-icon"><i class="fa fa-upload"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>trip-controller</span>
+                                            <span>trip</span>
                                         </div>
                                     </a>
                                 </div>
@@ -85,7 +85,7 @@
                                         <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>driver-controller</span>
+                                            <span>driver</span>
                                         </div>
                                     </a>
                                 </div>
@@ -100,7 +100,7 @@
                                         <span class="dash-widget-icon"><i class="fa fa-taxi"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>cab-controller</span>
+                                            <span>cab</span>
                                         </div>
                                     </a>
                                 </div>
@@ -114,7 +114,7 @@
                                         <span class="dash-widget-icon"><i class="fa fa-globe"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>customer-controller</span>
+                                            <span>customer</span>
                                         </div>
                                     </a>
                                 </div>
@@ -128,7 +128,7 @@
                                         <span class="dash-widget-icon"><i class="fa fa-bolt"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>admin-controller</span>
+                                            <span>admin</span>
                                         </div>
                                     </a>
                                 </div>
@@ -166,8 +166,9 @@
     </script>
 
 <script>
-    var uuidd = localStorage.getItem('userName');
-
+   
+    var uuidd = localStorage.getItem('currRole');
+    
     // Function to get query parameter from URL
     function getQueryParam(parameterName) {
         const urlParams = new URLSearchParams(window.location.search);

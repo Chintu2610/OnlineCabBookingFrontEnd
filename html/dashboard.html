@@ -35,11 +35,9 @@
         <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
         
-        <div class="sidebar" style="width: 200px;">
+        <div class="sidebar"   style="width: 200px;">
             <iframe src="sidebar.html" width="100%" height="650px" frameborder="0"></iframe>
         </div>
-
-      
         <div class="page-wrapper" style="margin-top: 0%;">
             <!-- Page Content -->
             <div class="content container-fluid">
@@ -57,40 +55,16 @@
                                                 <div class="text-white">
                                                     <h1 class="mb-4" style="color: #ad7020;"><span >Find</span><br>
                                                          Your Lady Pilot</h1>
-                                                   <form action="./SearchServlet" method="post">
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-lg-2">
-                                                                <div class="form-group">
-                                                                    <select class="form-control" name="type">
-                                                                        <option value="">Select Type</option>
-                                                                        <option value="apartment">Apartment</option>
-                                                                        <option value="flat">Flat</option>
-                                                                        <option value="bunglow">Bunglow</option>
-                                                                        <option value="house">House</option>
-                                                                        <option value="villa">Villa</option>
-                                                                        <option value="office">Office</option>
-                                                                        <option value="farmLands">Farm Lands</option>
-                                                                        <option value="agricultureLands">Agriculture Lands</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6 col-lg-2">
-                                                                <div class="form-group">
-                                                                    <select class="form-control" name="status">
-                                                                        <option value="">Select Status</option>
-                                                                        <option value="rent">Rent</option>
-                                                                        <option value="sale">Sale</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+                                                    <form id="cabSearchForm">
+                                                        <div class="row">                                                          
                                                             <div class="col-md-8 col-lg-6">
                                                                 <div class="form-group">
-                                                                    <input type="text" class="form-control" name="city" placeholder="Enter City or Enter State" required>
+                                                                    <input type="text" class="form-control" id="cityInput" name="city" placeholder="Enter pickup location" required>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4 col-lg-2">
                                                                 <div class="form-group">
-                                                                    <button type="submit" name="filter" class="btn btn-primary w-100">Search Property</button>
+                                                                    <button type="submit" name="filter" class="btn btn-primary w-200">Find Cabs</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -107,7 +81,9 @@
                             </div>
                         </div>
                     </div>
-    
+                    <div id="cabList">
+                        <!-- Available cabs will be displayed here -->
+                    </div>
                     <!-- Dashboard Widgets -->
                     <div class="row">
                         <!-- Widget 3 -->
@@ -151,9 +127,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        
                         </div>
                     </div>
                     <!-- End Dashboard Widgets -->
@@ -172,6 +145,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
     <!-- Add any additional scripts if needed -->
+    <script>
+               // Handle form submission
+document.getElementById("cabSearchForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    var city = document.getElementById("cityInput").value;
+
+    // Make AJAX request to retrieve available cabs
+    $.ajax({
+        url: "http://localhost:1995/cab/getAvailableCabByCity",
+        method: "GET",
+        data: { city: city },
+        success: function(response) {
+            displayAvailableCabs(response);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+        }
+    });
+});
+
+// Function to display available cabs
+function displayAvailableCabs(cabs) {
+    var cabListHTML = "";
+
+    // Loop through the available cabs and create HTML elements to display them
+    cabs.forEach(function(cab) {
+        cabListHTML += '<div class="card mb-3">';
+        cabListHTML += '<div class="card-body">';
+        cabListHTML += '<h5 class="card-title">' + cab.carName + '</h5>';
+        cabListHTML += '<p class="card-text">Type: ' + cab.carType + '</p>';
+        cabListHTML += '<p class="card-text">Number: ' + cab.carNumber + '</p>';
+        cabListHTML += '<p class="card-text">Rate: ' + cab.perKmRate + ' per km</p>';
+        cabListHTML += '</div></div>';
+    });
+
+    // Update the HTML content with the available cabs
+    document.getElementById("cabList").innerHTML = cabListHTML;
+}
+
+    </script>
     <script> 
         // Load header content
         fetch('header.html')
