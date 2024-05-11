@@ -130,11 +130,19 @@
          
         // Function to fetch data from API and populate the input fields
         function populateFields() {
-            
+            var currentrole=localStorage.getItem('currRole');
             var userId = localStorage.getItem('currUserId');
             var uuId=localStorage.getItem('uuid');
-            var url = 'http://localhost:1995/customer/viewCustomerProfile';
-            url += '?customerId='+userId; // Example: Replace param1 and value1 with your actual request variables
+            var url;
+            if(currentrole==="Admin")
+            {
+                 url='http://localhost:1995/admin/viewAdminProfile';
+                 url+='?adminId='+userId;
+            }else{
+            url = 'http://localhost:1995/customer/viewCustomerProfile';
+            url += '?customerId='+userId;
+            }
+             // Example: Replace param1 and value1 with your actual request variables
             url += '&uuid='+uuId;
             $.ajax({
                 url: url, // Replace this URL with your API endpoint

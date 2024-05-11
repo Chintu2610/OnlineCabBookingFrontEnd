@@ -59,11 +59,11 @@
         <div class="modal-header">
           <div class="row">
             <div class="col-md-12">
-              <h3 class="modal-title">Cab Controller</h3>
+              <h3 class="modal-title">RESISTER CABS</h3>
               <ul class="breadcrumb">
 								<li class="breadcrumb-item"><a
 									href="admin_dashboard.html">Dashboard</a></li>
-								<li class="breadcrumb-item active">Cabcontroller</li>
+								<li class="breadcrumb-item active">Resister Cabs</li>
 							</ul>
               <br>
               <form id="registrationForm">
@@ -121,7 +121,7 @@
       .then(data => document.getElementById('sidebar').innerHTML = data)
       .catch(error => console.error('Error fetching sidebar:', error));
     document.getElementById('registrationForm').addEventListener('submit', function (event) {
-      alert('hii');
+      
       event.preventDefault();
       const formData = {
         carType: document.getElementById('carType').value,
@@ -131,7 +131,7 @@
         cabCurrStatus: document.getElementById('currentstatus').value,
         currLocation: document.getElementById('currentlocation').value
       };
-      alert(formData);
+      console.log(JSON.stringify(formData));
       fetch('http://localhost:1995/cab/register', {
         method: 'POST',
         headers: {
@@ -142,6 +142,7 @@
         .then(response => {
           if (response.status === 201) {
             window.location.href = 'CabController(Register).html';
+            alert(response);
           } else {
             return response.json();
           }

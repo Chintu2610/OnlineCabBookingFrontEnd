@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- Add any additional CSS files if needed -->
+    <style>
+        body {
+            background-image: url('../assets/CAR.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff; /* Text color */
+        }
+
+        /* Add custom styling for form */
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+            width: 500px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        /* Increase input field size */
+        .form-control {
+            font-size: 18px; /* Increase font size */
+            padding: 10px; /* Increase padding */
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* Add spacing between form elements */
+        .mb-3 {
+            margin-bottom: 20px;
+        }
+
+        /* Change button color */
+        .btn-primary {
+            background-color: #007bff; /* Bootstrap primary color */
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade of primary color on hover */
+            border-color: #0056b3;
+        }
+    </style>
+     <script src="../js/jquery-3.2.1.min.js"></script>  
+   
+
+    <script src="../js/bootstrap.min.js"></script> 
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <!-- No iframe for header, content loaded via fetch -->
+        <div id="header"></div>
+
+        <div class="sidebar" style="width: 200px;">
+            <iframe src="sidebar.html" width="100%" height="650px" frameborder="0"></iframe>
+        </div>
+
+        <div class="page-wrapper" style="margin-top: 0%;">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div id="welcomeMessage" style="text-align: center; margin-top: 20px; font-size: 24px;">
+                                Welcome
+                            </div>
+                            <h3 class="page-title">Cab's</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="admin_dashboard.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Update Cab</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Page Header -->
+                <div class="container mt-4 form-container">
+                    <form id="updateCabForm">
+                        <div class="mb-3">
+                            <label for="cabId" class="form-label">Cab ID</label>
+                            <input type="text" class="form-control" id="cabId" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="currLocation" class="form-label">Current Location</label>
+                            <input type="text" class="form-control" id="currLocation" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cabCurrStatus" class="form-label">Current Status</label>
+                            <input type="text" class="form-control" id="cabCurrStatus" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="carName" class="form-label">Car Name</label>
+                            <input type="text" class="form-control" id="carName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="carNumber" class="form-label">Car Number</label>
+                            <input type="text" class="form-control" id="carNumber"  readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="carType" class="form-label">Car Type</label>
+                            <input type="text" class="form-control" id="carType" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="perKmRate" class="form-label">Rate(Per KM)</label>
+                            <input type="text" class="form-control" id="perKmRate" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Cab</button>
+                    </form>
+                </div>
+                <!-- End Page Content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Load header and sidebar content -->
+    <script>
+        // Load header content
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('header').innerHTML = data)
+            .catch(error => console.error('Error fetching header:', error));
+
+        // Load sidebar content
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('sidebar').innerHTML = data)
+            .catch(error => console.error('Error fetching sidebar:', error));
+    </script>
+
+    
+    
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Extract query parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const cabId = urlParams.get('cabId');
+        const currLocation = urlParams.get('currLocation');
+        const cabCurrStatus = urlParams.get('cabCurrStatus');
+        const carName = urlParams.get('carName');
+        const carNumber = urlParams.get('carNumber');
+        const carType = urlParams.get('carType');
+        const perKmRate = urlParams.get('perKmRate');
+        
+        // Populate form fields with query parameter values
+        document.getElementById('cabId').value = cabId;
+        document.getElementById('currLocation').value = currLocation;
+        document.getElementById('cabCurrStatus').value = cabCurrStatus;
+        document.getElementById('carName').value = carName;
+        document.getElementById('carNumber').value = carNumber;
+        document.getElementById('carType').value = carType;
+        document.getElementById('perKmRate').value = perKmRate;
+        
+        // Handle form submission
+       
+    </script>
+     <!-- <script>
+         
+        // Function to fetch data from API and populate the input fields
+        function populateFields() {
+            var currentrole=localStorage.getItem('currRole');
+            var userId = localStorage.getItem('currUserId');
+            var uuId=localStorage.getItem('uuid');
+            var url;
+            
+            url = 'http://localhost:1995/customer/viewCustomerProfile';
+            url += '?customerId='+userId;
+            
+             // Example: Replace param1 and value1 with your actual request variables
+            url += '&uuid='+uuId;
+            $.ajax({
+                url: url, // Replace this URL with your API endpoint
+                type: 'GET',
+                success: function(data) {
+                    $('#username').val(data.userName);
+                    $('#address').val(data.address);
+                    $('#phone').val(data.mobileNumber);
+                    $('#email').val(data.email);
+                    $('#userid').val(data.customerId);
+                    $('#password').val(data.password);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+
+        // Call the populateFields function when the page loads
+        $(document).ready(function() {
+            populateFields();
+        });
+    </script> -->
+    <script>
+        var userrole = localStorage.getItem('currRole');
+        // Function to handle form submission
+        $('#updateCabForm').submit(function(e) {
+            e.preventDefault(); // Prevent the default form submission
+            
+            // Collect updated details from form fields
+            var updatedDetails = {
+                cabId: parseInt($('#cabId').val()),
+                carType:$('#carType').val(),
+                carName:$('#carName').val(),
+                carNumber:$('#carNumber').val(),
+                perKmRate:parseInt($('#perKmRate').val()),
+                CurrLocation:$('#currLocation').val(),   
+                cabCurrStatus:($('#cabCurrStatus').val())             
+                // cabCurrStatus:parseInt($('#cabCurrStatus').val())
+            };
+            var uuId=localStorage.getItem('uuid');
+            
+            var url='http://localhost:1995/cab/update';
+            url += '?uuid='+uuId;
+            // AJAX call to update details
+            $.ajax({
+                url: url, // Replace with your backend script URL
+                type: 'PUT',
+                headers: {
+            'Content-Type': 'application/json',
+            },
+                data: JSON.stringify(updatedDetails),
+                success: function(response) {
+                    // Handle success response
+                    alert('Details updated successfully:', response);
+                    // Optionally, perform actions like showing a success message or redirecting
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    alert('Error updating details:', error);
+                    // Optionally, show an error message to the user
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

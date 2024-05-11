@@ -70,25 +70,28 @@
                 <!-- Centered User ID container -->
                 <div class="user-id-container d-flex justify-content-center align-items-center">
                     <div class="container-fluid" style="background-color: #F5F5F5; padding: 20px; border-radius: 10px; margin-right: 60px;">
-                       
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <label class="col-form-label">User ID <span class="text-danger">*</span></label>
-                                <input name="UserID" required class="form-control" type="text">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-form-label">Password <span class="text-danger">*</span></label>
-                                <input name="Password" required class="form-control" type="password">
-                            </div>
-                        </div>
+                        <form id="registerForm">
+                            <!-- {
+                                "userName": "string",
+                                "password": "string",
+                                "address": "string",
+                                "mobileNumber": "string",
+                                "email": "string",
+                                "userRole": "string",
+                                "driverId": 0,
+                                "licenceNo": "string",
+                                "rating": 0,
+                                "currLocation": "string",
+                                "currDriverStatus": "string"
+                              } -->
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label class="col-form-label">User Name <span class="text-danger">*</span></label>
-                                <input name="UserName" required class="form-control" type="text">
+                                <input name="userName" required class="form-control" type="text">
                             </div>
                             <div class="col-md-6">
                                 <label class="col-form-label">Address <span class="text-danger">*</span></label>
-                                <input name="Address" required class="form-control" type="text">
+                                <input name="address" required class="form-control" type="text">
                             </div>
                         </div>
                         <!-- Add more pairs of fields in a similar manner -->
@@ -96,50 +99,59 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label class="col-form-label">Mobile Number <span class="text-danger">*</span></label>
-                                <input name="MobileNumber" required class="form-control" type="text">
+                                <input name="mobileNumber" required class="form-control" type="text">
                             </div>
                             <div class="col-md-6">
                                 <label class="col-form-label">Email <span class="text-danger">*</span></label>
-                                <input name="Email" required class="form-control" type="email">
+                                <input name="email" required class="form-control" type="email">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label class="col-form-label">User Role <span class="text-danger">*</span></label>
-                                <input name="UserRole" required class="form-control" type="text">
+                                <input name="userRole" required class="form-control" type="text" value="Driver" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="col-form-label">Driver ID <span class="text-danger">*</span></label>
-                                <input name="DriverID" required class="form-control" type="text">
+                                <input name="driverId" required class="form-control" type="text">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label class="col-form-label">Licence Number <span class="text-danger">*</span></label>
-                                <input name="LicenceNumber" required class="form-control" type="text">
+                                <input name="licenceNo" required class="form-control" type="text">
                             </div>
                             <div class="col-md-6">
                                 <label class="col-form-label">Rating <span class="text-danger">*</span></label>
-                                <input name="Rating" required class="form-control" type="text">
+                                <input name="rating" required class="form-control" type="text">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label class="col-form-label">Current Location <span class="text-danger">*</span></label>
-                                <input name="CurrentLocation" required class="form-control" type="text">
+                                <input name="currLocation" required class="form-control" type="text">
                             </div>
                             <div class="col-md-6">
                                 <label class="col-form-label">Current Driver Status <span class="text-danger">*</span></label>
-                                <input name="CurrentDriverStatus" required class="form-control" type="text">
+                                <input name="currDriverStatus" required class="form-control" type="text">
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            
+                            <div class="col-md-6">
+                                <label class="col-form-label">Password <span class="text-danger">*</span></label>
+                                <input name="password" required class="form-control" type="password">
                             </div>
                         </div>
-                        
+                        </form>
             </div> 
             </div>  
         </div>
         
          <div class="submit-section">
-            <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+            <button type="button" onclick="submitForm()" class="btn btn-primary submit-btn">Submit</button>
+
           </div>
           </div>
 
@@ -169,6 +181,48 @@
         // Add event listener to the button to open the modal when clicked
         document.getElementById('bookingRequestBtn').addEventListener('click', openBookingRequestModal);
     </script>
+    <script>
+        // Function to handle form submission
+        function submitForm(event) {
+            
+            // Get form data
+            const formData = new FormData(document.getElementById('registerForm'));
     
+            // Convert formData to JSON object
+            const jsonObject = {};
+            formData.forEach((value, key) => {
+                jsonObject[key] = value;
+            });
+    
+            // Send POST request to the backend
+            fetch('http://localhost:1995/driver/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonObject)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to register driver');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle success response
+                console.log('Driver registered successfully:', data);
+                // Optionally, redirect to another page or show a success message
+                alert('Driver registered successfully');
+            })
+            .catch(error => {
+                console.error('Error registering driver:', error);
+                // Handle error
+                alert('Failed to register driver. Please try again.');
+            });
+        }
+    
+        // Add event listener to the form for form submission
+        document.getElementById('registerForm').addEventListener('submit', submitForm);
+    </script>
 </body>
 </html>

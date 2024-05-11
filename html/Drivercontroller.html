@@ -121,8 +121,6 @@
             <!-- End Page Content -->
         </div>
     </div>
-    
-
     <!-- Add your JavaScript includes here -->
     <script src="../js/jquery-3.2.1.min.js"></script>
     <!-- Other JavaScript includes -->
@@ -141,8 +139,6 @@
             .then(data => document.getElementById('sidebar').innerHTML = data)
             .catch(error => console.error('Error fetching sidebar:', error));
     </script>
-
-
 <script>
     // Fetch and display driver data in the table
     // Fetch and display driver data in the table
@@ -162,10 +158,8 @@
     })
     .then(data => {
         console.log('Response data:', data); // Log the response data for debugging
-
         const driverTableBody = document.getElementById('driverTableBody');
-        driverTableBody.innerHTML = ''; // Clear existing rows
-        
+        driverTableBody.innerHTML = ''; // Clear existing rows        
         if (data && data.length > 0) {
             data.forEach(driver => {
                 const row = driverTableBody.insertRow();
@@ -188,9 +182,6 @@
     })
     .catch(error => console.error('Error fetching drivers:', error));
 }
-
-
-
     // Call fetchAndDisplayDrivers when the page loads
     window.onload = fetchAndDisplayDrivers;
 </script>
