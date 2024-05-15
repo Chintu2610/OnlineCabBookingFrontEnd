@@ -76,7 +76,7 @@
                                 <i class="fa fa-plus"></i> Register
                             </a>
                         
-                            <a style="padding: 10px;" href="CabController(ViewCabsofType).html" class="Addbutton" data-toggle="modal" data-target="#Tripcntrbookreq">
+                            <!-- <a style="padding: 10px;" href="CabController(ViewCabsofType).html" class="Addbutton" data-toggle="modal" data-target="#Tripcntrbookreq">
                                 <i class="fa fa-plus"></i> View Cabs OF Type
                             </a>
                         
@@ -86,7 +86,7 @@
                         
                             <a style="padding: 10px;" href="delete_cabByadmin.html" class="Addbutton" data-toggle="modal" data-target="#Tripcntrbookreq">
                                 <i class="fa fa-plus"></i> Delete
-                            </a>
+                            </a> -->
                         </div>
                         
     <div id="abc">                 
@@ -159,9 +159,28 @@ fetch('sidebar.html')
 
 // Function to handle the click event of the delete button
 function handleDeleteClick(cabId) {
-    // Redirect to the delete controller for the specific cab
-    window.location.href = 'delete_cabByadmin.html?cabId=' + cabId;
-}
+            var uuId = localStorage.getItem('uuid');
+            var baseUrl = "http://localhost:1995/cab/delete?uuid=";
+            var url = baseUrl + uuId + "&cabId=" + cabId;
+
+            // Send a DELETE request to delete the cab
+            fetch(url, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to delete cab');
+                    }
+                    // Cab deleted successfully, show success alert
+                    alert('Cab deleted successfully');
+                })
+                .catch(error => {
+                    console.error('Error deleting cab:', error);
+                    // Show error alert if deletion fails
+                    alert('Failed to delete cab');
+                });
+        }
+    
 let baseUrl = "http://localhost:1995/cab/getAllAvailableCab?uuid=";
 let uuid = localStorage.getItem("uuid");
 let url = baseUrl + uuid;
@@ -205,7 +224,7 @@ const updateButton = document.createElement('button');
                     deleteButton.textContent = 'Delete';
                     deleteButton.classList.add('btn', 'btn-danger');
                     deleteButton.addEventListener('click', () => {
-                    redirectToDeletePage(c.cabId);
+                        handleDeleteClick(c.cabId);
                     });
                     const deleteCell = row.insertCell(8);
                     deleteCell.appendChild(deleteButton);
@@ -219,10 +238,7 @@ console.log('No data found.');
 }
 // Call fetchAndDisplayDrivers when the page loads
 window.onload = fetchAndDisplayDrivers;
-function redirectToDeletePage(cabId) {
-    // Redirect to delete page with customerId as query parameter
-    window.location.href = 'delete_cabByadmin.html?cabId=' + cabId;
-}
+
 </script>
 </body>
 </html>
