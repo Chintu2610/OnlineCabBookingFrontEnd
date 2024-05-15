@@ -141,8 +141,8 @@
       })
         .then(response => {
           if (response.status === 201) {
-            window.location.href = 'CabController(Register).html';
-            alert(response);
+            window.location.href = 'CabController.html';
+            alert("registerd successfully.");
           } else {
             return response.json();
           }
