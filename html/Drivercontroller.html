@@ -3,148 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <!-- Add your CSS includes here -->
-    <!-- Bootstrap CSS -->
+    <title>Driver Management</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/M.css">
-    <!-- Add any additional CSS files if needed -->
     <style>
-        /* Flexbox styles for layout */
+        #abc {
+            overflow-x: auto;
+        }
+
         .container {
             display: flex;
-            flex-wrap: wrap; /* Allow wrapping to the next row */
+            flex-wrap: wrap;
         }
+
         .sidebar {
-            width: 15%; /* Adjust as needed */
+            width: 15%;
         }
+
         .page-wrapper {
-            width: 75%; /* Adjust as needed */
+            width: 75%;
         }
+
         .clearfix::after {
             content: "";
             clear: both;
             display: table;
         }
+
+        #welcomeMessage {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            margin-left: 100px;
+        }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
-        
         <div class="sidebar" style="width: 200px;">
             <iframe src="sidebar.html" width="100%" height="650px" frameborder="0"></iframe>
         </div>
-
-      
         <div class="page-wrapper" style="margin-top: 0%;">
-            <!-- Page Content -->
             <div class="content container-fluid">
-              
-                <!-- Page Header -->
                 <div class="page-header">
-                    
-                        
                     <div class="row align-items-center">
-						<div class="col">
-							<div id="welcomeMessage"
-								style="text-align: center; margin-top: 20px; font-size: 24px;margin-left: 300px;">
-								Welcome
-								
-							</div>
-							<h3 class="page-title">Driver Conntroller</h3>
-							<ul class="breadcrumb">
-								<li class="breadcrumb-item"><a
-									href="admin_dashboard.html">Dashboard</a></li>
-								<li class="breadcrumb-item active">Tripcontroller</li>
-							</ul>
-						</div>
-						
-						<br><br><br><br><br><br><br><br><div class="col-auto ml-auto">
-                            <a  href="Drivercotroller(Update).html" class="Addbutton" data-toggle="modal" data-target="#Tripcntrbookreq">
-                                <i class="fa fa-plus"></i> Update
-                            </a>
-                        
-                            <a href="Drivercotroller(Register).html" class="Addbutton" data-toggle="modal" data-target="#Tripcntrbookreq">
-                                <i class="fa fa-plus"></i> Register
-                            </a>
-                        
-                            <a style="padding: 10px;" href="DriverController(ViewDriver).html" class="Addbutton" data-toggle="modal" data-target="#Tripcntrbookreq">
-                                <i class="fa fa-plus"></i> View Driver
-                            </a>
-                        
-                            <a style="padding: 10px;" href="Drivercontroller(ViewBestDrivers).html" class="Addbutton" data-toggle="modal" data-target="#Tripcntrbookreq">
-                                <i class="fa fa-plus"></i> view Best Driver
-                            </a>
-                        
-                            <a style="padding: 10px;" href="TripCotroller(SearchCab).html" class="Addbutton" data-toggle="modal" data-target="#Tripcntrbookreq">
-                                <i class="fa fa-plus"></i> Delete
-                            </a>
+                        <div class="col">
+                            <div id="welcomeMessage">Welcome</div>
+                            <h3 class="page-title">Driver Management</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="admin_dashboard.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Driver Management</li>
+                            </ul>
                         </div>
-                     <!--retrive table-->   
-                     <div id="driverTableContainer" style="margin-top: 20px;">
+                        
+                        <a href="DriverRegister.html" class="Addbutton" >
+                            <i class="fa fa-plus"></i> Register
+                        </a>
+                        <div class="col-auto ml-auto">
+                            <!-- Search Form -->
+                            <div class="input-group">
+                                <input type="text" id="searchDriverId" class="form-control" placeholder="Enter Driver ID">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" id="searchButton">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                   
+                    </div>
+                </div>
+                <div id="abc">
+                    <div id="driverTableContainer" style="margin-top: 20px;">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>User Name</th>
                                     <th>License Number</th>
-                                    <th>Address</th>
                                     <th>Mobile Number</th>
                                     <th>Email</th>
-                                    <th>User Role</th>
                                     <th>Rating</th>
                                     <th>Current Location</th>
-                                    <th>Current Driver Status</th>
+                                    <th>Status</th>
                                     <th>Action</th>
-                                    <!-- Add more table headers as needed -->
                                 </tr>
                             </thead>
                             <tbody id="driverTableBody"></tbody>
                         </table>
                     </div>
                 </div>
-                       <div>
-                        
-					</div>
-
-                </div>
-                <!-- End Page Header -->
-                
-                </div>
             </div>
-            <!-- End Page Content -->
         </div>
     </div>
-    <!-- Add your JavaScript includes here -->
+    <!-- Update Driver Modal -->
+    <div class="modal fade" id="updateDriverModal" tabindex="-1" role="dialog" aria-labelledby="updateDriverModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateDriverModalLabel">Update Driver</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateDriverForm" >
+                        <div class="form-group" hidden>
+                            <label for="driverUserName">User Name</label>
+                            <input type="text" class="form-control" id="driverUserName" name="userName" required >
+                        </div>
+                        <div class="form-group">
+                            <label for="driverLicenseNo">License Number</label>
+                            <input type="text" class="form-control" id="driverLicenseNo" name="licenceNo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="driverMobileNumber">Mobile Number</label>
+                            <input type="text" class="form-control" id="driverMobileNumber" name="mobileNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="driverEmail">Email</label>
+                            <input type="email" class="form-control" id="driverEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="driverRating">Rating</label>
+                            <input type="number" class="form-control" id="driverRating" name="rating" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="driverCurrentLocation">Current Location</label>
+                            <input type="text" class="form-control" id="driverCurrentLocation" name="currLocation" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="driverStatus">Status</label>
+                            <input type="text" class="form-control" id="driverStatus" name="currDriverStatus" required>
+                        </div>
+                        <input type="hidden" id="driverId" name="driverId">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveDriverButton">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/jquery-3.2.1.min.js"></script>
-    <!-- Other JavaScript includes -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-    <script> 
-        // Load header content
-        fetch('header.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('header').innerHTML = data)
-            .catch(error => console.error('Error fetching header:', error));
+    <script src="../js/bootstrap.min.js"></script>
+    <script>
+       const baseurl = "http://localhost:1995/driver/AllDriver";
 
-        // Load sidebar content
-        fetch('sidebar.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('sidebar').innerHTML = data)
-            .catch(error => console.error('Error fetching sidebar:', error));
-    </script>
-<script>
-    // Fetch and display driver data in the table
-    // Fetch and display driver data in the table
-   // Fetch and display driver data in the table using GET method
-   function fetchAndDisplayDrivers() {
-    fetch('http://localhost:1995/driver/AllDriver', {
+function fetchAndDisplayDrivers(url) {
+    fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -160,30 +173,131 @@
         console.log('Response data:', data); // Log the response data for debugging
         const driverTableBody = document.getElementById('driverTableBody');
         driverTableBody.innerHTML = ''; // Clear existing rows        
-        if (data && data.length > 0) {
-            data.forEach(driver => {
-                const row = driverTableBody.insertRow();
-                row.insertCell(0).textContent = driver.driverId || ''; // Handle null or undefined values
-                row.insertCell(1).textContent = driver.userName || '';
-                row.insertCell(2).textContent = driver.licenceNo || '';
-                row.insertCell(3).textContent = driver.address || '';
-                row.insertCell(4).textContent = driver.mobileNumber || '';
-                row.insertCell(5).textContent = driver.email || '';
-                row.insertCell(6).textContent = driver.userRole || '';
-                row.insertCell(7).textContent = driver.rating || '';
-                row.insertCell(8).textContent = driver.currLocation || '';
-                row.insertCell(9).textContent = driver.currDriverStatus || '';
-                // Add more cells for additional driver data if needed
-            });
+
+        // Check if data is an array (all drivers) or a single object (one driver)
+        if (Array.isArray(data)) {
+            if (data.length > 0) {
+                data.forEach(driver => {
+                    addDriverRow(driverTableBody, driver);
+                });
+            } else {
+                console.log('No data found.');
+            }
+        } else if (data && typeof data === 'object') {
+            addDriverRow(driverTableBody, data);
         } else {
             console.log('No data found.');
-            // You can display a message or handle empty data case here
         }
     })
     .catch(error => console.error('Error fetching drivers:', error));
 }
-    // Call fetchAndDisplayDrivers when the page loads
-    window.onload = fetchAndDisplayDrivers;
-</script>
+
+function addDriverRow(driverTableBody, driver) {
+    const row = driverTableBody.insertRow();
+    row.insertCell(0).textContent = driver.driverId || ''; // Handle null or undefined values
+    row.insertCell(1).textContent = driver.userName || '';
+    row.insertCell(2).textContent = driver.licenceNo || '';               
+    row.insertCell(3).textContent = driver.mobileNumber || '';
+    row.insertCell(4).textContent = driver.email || '';                
+    row.insertCell(5).textContent = driver.rating || '';
+    row.insertCell(6).textContent = driver.currLocation || '';
+    row.insertCell(7).textContent = driver.currDriverStatus || '';
+
+    const updateButton = document.createElement('button');
+    updateButton.textContent = 'Update Driver';
+    updateButton.classList.add('btn', 'btn-primary', 'mr-2');
+    updateButton.addEventListener('click', () => {
+        openUpdateDriverModal(driver);
+    });
+
+    const actionCell = row.insertCell(8);
+    actionCell.appendChild(updateButton);
+}
+
+
+
+
+
+
+        function openUpdateDriverModal(driver) {
+            document.getElementById('driverId').value = driver.driverId;
+            document.getElementById('driverUserName').value = driver.userName;
+            document.getElementById('driverLicenseNo').value = driver.licenceNo;
+            document.getElementById('driverMobileNumber').value = driver.mobileNumber;
+            document.getElementById('driverEmail').value = driver.email;
+            document.getElementById('driverRating').value = driver.rating;
+            document.getElementById('driverCurrentLocation').value = driver.currLocation;
+            document.getElementById('driverStatus').value = driver.currDriverStatus;
+
+            $('#updateDriverModal').modal('show');
+        }
+
+        document.getElementById('saveDriverButton').addEventListener('click', function() {
+            const uuid = localStorage.getItem("uuid");
+            const driverId = document.getElementById('driverId').value;
+            const url = 'http://localhost:1995/driver/update?driverId=' + driverId + '&uuid=' + uuid;
+
+            const driverData = {
+                userName: document.getElementById('driverUserName').value,
+                licenceNo: document.getElementById('driverLicenseNo').value,
+                mobileNumber: document.getElementById('driverMobileNumber').value,
+                email: document.getElementById('driverEmail').value,
+                rating: document.getElementById('driverRating').value,
+                currLocation: document.getElementById('driverCurrentLocation').value,
+                currDriverStatus: document.getElementById('driverStatus').value
+            };
+
+            fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(driverData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                alert("Driver updated successfully.");
+                return response.json();
+            })
+            .then(data => {
+                console.log('Driver updated successfully:', data);
+                // Refresh the drivers list
+                fetchAndDisplayDrivers();
+                // Close the modal
+                $('#updateDriverModal').modal('hide');
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        });
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('header').innerHTML = data)
+            .catch(error => console.error('Error fetching header:', error));
+        // Call fetchAndDisplayDrivers when the page loads
+        window.onload = fetchAndDisplayDrivers(baseurl);
+   
+        
+                        document.getElementById('searchButton').addEventListener(
+                            'click',function()
+                            {
+                                const driverid=document.getElementById('searchDriverId').value;
+                                if(driverid)
+                                {
+                                    const uuid=localStorage.getItem("uuid");
+                                    const url="http://localhost:1995/driver/viewDriver?driverId="+driverid+"&uuid="+uuid;
+                                    fetchAndDisplayDrivers(url);
+                                }else
+                                {
+                                    alert("Please enter a valid driver id");
+                                }
+                            }
+                        )
+                
+        
+      
+    </script>
 </body>
 </html>
