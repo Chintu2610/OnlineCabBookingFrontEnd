@@ -74,35 +74,24 @@
                     <div class="row align-items-center">
                         <div class="col">
                             
-                            <h3 class="page-title">Driver Management</h3>
+                            <h3 class="page-title">Customer Management</h3>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="admin_dashboard.html">Dashboard</a></li>
                                
                             </ul>
                         </div>
                         
-                        <a href="DriverRegister.html" class="Addbutton" >
-                            <i class="fa fa-plus"></i> Register
-                        </a>
+                        
                         <div class="col-auto ml-auto">
                             <!-- Search Form -->
                             <div class="input-group">
-                                <input type="text" id="searchDriverId" class="form-control" placeholder="Enter Driver ID">
+                                <input type="text" id="searchCustomerId" class="form-control" placeholder="Enter Customer ID">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="button" id="searchButton">Search</button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-auto ml-auto">
-                            <!-- Search Form -->
-                            <div class="input-group">
-                                
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" id="findbestdriver">Find Best Driver</button>
-                                </div>
-                            </div>
-                        </div>
                    
                     </div>
                 </div>
@@ -111,24 +100,24 @@
                         <table class="table table-bordered table-light">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>User Name</th>
-                                    <th>License Number</th>
+                                    <th>userName</th>
+                                    <th>password</th>
+                                    <th>address</th>
                                     <th>Mobile Number</th>
                                     <th>Email</th>
-                                    <th>Rating</th>
-                                    <th>Current Location</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>userRole</th>
+                                    <th>customerId</th>
+                                    <th></th>
                                 </tr>
                             </thead>
-                            <tbody id="driverTableBody"></tbody>
+                            <tbody id="customerTableBody"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Update Driver Modal -->
     <div class="modal fade" id="updateDriverModal" tabindex="-1" role="dialog" aria-labelledby="updateDriverModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -142,34 +131,34 @@
                 <div class="modal-body">
                     <form id="updateDriverForm" >
                         <div class="form-group" hidden>
-                            <label for="driverUserName">User Name</label>
-                            <input type="text" class="form-control" id="driverUserName" name="userName" required >
+                            <label for="userName">User Name</label>
+                            <input type="text" class="form-control" id="userName" name="userName" required >
                         </div>
                         <div class="form-group">
-                            <label for="driverLicenseNo">License Number</label>
-                            <input type="text" class="form-control" id="driverLicenseNo" name="licenceNo" required>
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control" id="password" name="password" required>
                         </div>
                         <div class="form-group">
-                            <label for="driverMobileNumber">Mobile Number</label>
-                            <input type="text" class="form-control" id="driverMobileNumber" name="mobileNumber" required>
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
                         </div>
                         <div class="form-group">
-                            <label for="driverEmail">Email</label>
-                            <input type="email" class="form-control" id="driverEmail" name="email" required>
+                            <label for="driverEmail">Mobile Number</label>
+                            <input type="email" class="form-control" id="mobileNumber" name="mobileNumber" required>
                         </div>
                         <div class="form-group">
-                            <label for="driverRating">Rating</label>
-                            <input type="number" class="form-control" id="driverRating" name="rating" required>
+                            <label for="driverRating">email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="driverCurrentLocation">Current Location</label>
-                            <input type="text" class="form-control" id="driverCurrentLocation" name="currLocation" required>
+                            <label for="driverCurrentLocation">User Role</label>
+                            <input type="text" class="form-control" id="userRole" name="userRole" required>
                         </div>
                         <div class="form-group">
-                            <label for="driverStatus">Status</label>
-                            <input type="text" class="form-control" id="driverStatus" name="currDriverStatus" required>
+                            <label for="customerId">customerId</label>
+                            <input type="text" class="form-control" id="customerId" name="customerId" required>
                         </div>
-                        <input type="hidden" id="driverId" name="driverId">
+                        
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -185,9 +174,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script>
-       const baseurl = "http://localhost:1995/driver/AllDriver";
-
-function fetchAndDisplayDrivers(url) {
+       var baseurl = "http://localhost:1995/customer/viewAllCustomer";
+       var uuid = localStorage.getItem("uuid");
+       baseurl+="?uuid="+uuid;
+      
+function fetchAndDisplayCustomers(url) {
     fetch(url, {
         method: 'GET',
         headers: {
@@ -202,20 +193,20 @@ function fetchAndDisplayDrivers(url) {
     })
     .then(data => {
         console.log('Response data:', data); // Log the response data for debugging
-        const driverTableBody = document.getElementById('driverTableBody');
-        driverTableBody.innerHTML = ''; // Clear existing rows        
+        const customerTableBody = document.getElementById('customerTableBody');
+        customerTableBody.innerHTML = ''; // Clear existing rows        
 
         // Check if data is an array (all drivers) or a single object (one driver)
         if (Array.isArray(data)) {
             if (data.length > 0) {
-                data.forEach(driver => {
-                    addDriverRow(driverTableBody, driver);
+                data.forEach(customer => {
+                    addCustomerRow(customerTableBody, customer);
                 });
             } else {
                 console.log('No data found.');
             }
         } else if (data && typeof data === 'object') {
-            addDriverRow(driverTableBody, data);
+            addCustomerRow(customerTableBody, data);
         } else {
             console.log('No data found.');
         }
@@ -223,52 +214,44 @@ function fetchAndDisplayDrivers(url) {
     .catch(error => console.error('Error fetching drivers:', error));
 }
 
-function addDriverRow(driverTableBody, driver) {
-    const row = driverTableBody.insertRow();
-    row.insertCell(0).textContent = driver.driverId || ''; // Handle null or undefined values
-    row.insertCell(1).textContent = driver.userName || '';
-    row.insertCell(2).textContent = driver.licenceNo || '';               
-    row.insertCell(3).textContent = driver.mobileNumber || '';
-    row.insertCell(4).textContent = driver.email || '';                
-    row.insertCell(5).textContent = driver.rating || '';
-    row.insertCell(6).textContent = driver.currLocation || '';
-    row.insertCell(7).textContent = driver.currDriverStatus || '';
+function addCustomerRow(customerTableBody, customer) {
+    const row = customerTableBody.insertRow();
+    row.insertCell(0).textContent = customer.userName || ''; // Handle null or undefined values
+    row.insertCell(1).textContent = customer.password || '';
+    row.insertCell(2).textContent = customer.address || '';               
+    row.insertCell(3).textContent = customer.mobileNumber || '';
+    row.insertCell(4).textContent = customer.email || '';                
+    row.insertCell(5).textContent = customer.userRole || '';
+    row.insertCell(6).textContent = customer.customerId || '';
+    
     const updateButton = document.createElement('button');
-    updateButton.textContent = 'Update Driver';
+    updateButton.textContent = 'Update Customer';
     updateButton.classList.add('btn', 'btn-primary', 'mr-2');
     updateButton.addEventListener('click', () => {
-        openUpdateDriverModal(driver);
+        openUpdateCustomerModal(customer);
     });
-    const actionCell = row.insertCell(8);
+    const actionCell = row.insertCell(7);
     actionCell.appendChild(updateButton);
 
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete Driver';
-    deleteButton.classList.add('btn', 'btn-secondary', 'mr-2');
-    deleteButton.addEventListener('click', () => {
-        handleDeleteClick(driver.driverId);
-    });
-    actionCell.appendChild(deleteButton);
-
-     // Create a div to hold the buttons and apply Bootstrap flex utilities
-     const buttonContainer = document.createElement('div');
-                            buttonContainer.classList.add('d-flex', 'justify-content-between');
-
-                            buttonContainer.appendChild(updateButton);
-                            buttonContainer.appendChild(deleteButton);
-
-                            actionCell.appendChild(buttonContainer);
-
+    // const deleteButton = document.createElement('button');
+    // deleteButton.textContent = 'Delete Customer';
+    // deleteButton.classList.add('btn', 'btn-secondary', 'mr-2');
+    // deleteButton.addEventListener('click', () => {
+    //     handleDeleteClick(customer.customerId);
+    // });
+    // actionCell.appendChild(deleteButton);
 }
-        function openUpdateDriverModal(driver) {
-            document.getElementById('driverId').value = driver.driverId;
-            document.getElementById('driverUserName').value = driver.userName;
-            document.getElementById('driverLicenseNo').value = driver.licenceNo;
-            document.getElementById('driverMobileNumber').value = driver.mobileNumber;
-            document.getElementById('driverEmail').value = driver.email;
-            document.getElementById('driverRating').value = driver.rating;
-            document.getElementById('driverCurrentLocation').value = driver.currLocation;
-            document.getElementById('driverStatus').value = driver.currDriverStatus;
+
+        function openUpdateCustomerModal(customer) {
+            
+            document.getElementById('userName').value = customer.userName;
+            document.getElementById('password').value = customer.password;
+            document.getElementById('address').value = customer.address;
+            document.getElementById('mobileNumber').value = customer.mobileNumber;
+            document.getElementById('email').value = customer.email;
+            document.getElementById('userRole').value = customer.userRole;
+            document.getElementById('customerId').value = customer.customerId;
+            
 
             $('#updateDriverModal').modal('show');
         }
@@ -318,16 +301,16 @@ function addDriverRow(driverTableBody, driver) {
             .then(data => document.getElementById('header').innerHTML = data)
             .catch(error => console.error('Error fetching header:', error));
         // Call fetchAndDisplayDrivers when the page loads
-        window.onload = fetchAndDisplayDrivers(baseurl);
+        window.onload = fetchAndDisplayCustomers(baseurl);
                         document.getElementById('searchButton').addEventListener(
                             'click',function()
                             {
-                                const driverid=document.getElementById('searchDriverId').value;
-                                if(driverid)
+                                const customerId=document.getElementById('searchCustomerId').value;
+                                if(customerId)
                                 {
                                     const uuid=localStorage.getItem("uuid");
-                                    const url="http://localhost:1995/driver/viewDriver?driverId="+driverid+"&uuid="+uuid;
-                                    fetchAndDisplayDrivers(url);
+                                    const url="http://localhost:1995/customer/viewCustomer?customerId="+customerId+"&uuid="+uuid;
+                                    fetchAndDisplayCustomers(url);
                                 }else
                                 {
                                     alert("Please enter a valid driver id");
@@ -347,10 +330,10 @@ function addDriverRow(driverTableBody, driver) {
 
             
 // Function to handle the click event of the delete button
-function handleDeleteClick(driverId) {
+function handleDeleteClick(customerId) {
             var uuId = localStorage.getItem('uuid');
-            var baseUrl = "http://localhost:1995/driver/delete?uuid=";
-            var url = baseUrl + uuId + "&driverId=" + driverId;
+            var baseUrl = "http://localhost:1995/customer/delete?uuid=";
+            var url = baseUrl + uuId + "&customerId=" + customerId;
 
             // Send a DELETE request to delete the cab
             fetch(url, {
@@ -358,16 +341,16 @@ function handleDeleteClick(driverId) {
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Failed to delete cab');
+                        throw new Error('Failed to delete customer');
                     }
                     // Cab deleted successfully, show success alert
-                    alert('Driver deleted successfully');
+                    alert('customer deleted successfully');
                     window.location.reload();
                 })
                 .catch(error => {
                     console.error('Error deleting driver:', error);
                     // Show error alert if deletion fails
-                    alert('Failed to delete Driver');
+                    alert('Failed to delete customer');
                 });
         }
     

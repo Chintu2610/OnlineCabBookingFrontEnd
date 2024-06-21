@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/M.css">
+    <link rel="shortcut icon" href="../assets/fab-icon.png">
     <!-- Add any additional CSS files if needed -->
     <style>
         #abc {
@@ -47,11 +48,31 @@
             font-size: 24px;
             margin-left: 100px;
         }
+        .myclass {
+            position: relative;
+            min-height: 100vh;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .myclass::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../assets/cab-3.png');
+            background-repeat: repeat;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.7;
+            z-index: -1;
+        }
     </style>
 </head>
 
 <body>
-    <div class="main-wrapper">
+    <div class="main-wrapper myclass">
         <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
 
@@ -69,25 +90,13 @@
 
 
                     <div class="row align-items-center">
-                        <div class="col">
-                            <div id="welcomeMessage">
-                                Welcome
-                            </div>
-                            <h3 class="page-title">Booking history</h3>
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="admin_dashboard.html">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Booking history</li>
-                            </ul>
-                        </div>
+                        
 
-                        <br><br><br><br><br><br><br><br>
+                        
                         <div class="col-auto ml-auto">
 
 
-                            <!-- <a href="CustomerController(Register).html" class="Addbutton" data-toggle="modal"
-                                data-target="#Tripcntrbookreq " style="font-size: 20px;" >
-                                Register
-                            </a> -->
+                           
                             <div class="col-auto ml-auto">
                                 <!-- Search Form -->
                                 <div class="input-group">
@@ -97,15 +106,23 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="col-auto ml-auto mt-3">
+                                <div class="input-group">
+                                    <input type="datetime-local" id="fromDateTime" class="form-control" placeholder="From Date & Time">
+                                    <input type="datetime-local" id="toDateTime" class="form-control" placeholder="To Date & Time">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" id="dateRangeSearchButton">Search by Date Range</button>
+                                    </div>
+                                </div>
+                            </div>
 
 
                         </div>
 
                         <div id="abc">
                             <div id="customerTableContainer" style="margin-top: 20px;">
-                                <table class="table table-striped">
-                                    <thead>
+                                <table class="table table-bordered table-light">
+                                    <thead class="thead-dark">
                                         <tr>
                                             <th>Booking ID</th>
                                         <th>Pickup Location</th>
@@ -173,7 +190,7 @@
 
                     const TableBody = document.getElementById('customerTableBody');
                     TableBody.innerHTML = ''; // Clear existing rows
-
+                   
                     if (data && (Array.isArray(data) ? data.length > 0 : data)) {
                         const bookings = Array.isArray(data) ? data : [data]; // Handle single object or array
                         bookings.forEach(c => {
@@ -184,12 +201,10 @@
                             row.insertCell(3).textContent = c.toDateTime || '';
                             row.insertCell(4).textContent = c.price || '';
                             row.insertCell(5).textContent = c.driverName || '';
-                            
-
-                           
                         });
                     } else {
-                        console.log('No data found.');
+                        alert('No data found.');
+                        window.location.reload();
                     }
                 })
                 .catch(error => console.error('Error fetching bookings:', error));
@@ -215,7 +230,6 @@
 
     <script>
         var url = "http://localhost:1995/admin/getTripsCustomerwise";
-        debugger;
         var uuid = localStorage.getItem("uuid");
         url += "?uuid=" + uuid;
         var currUserId = localStorage.getItem("currUserId");
@@ -246,16 +260,9 @@
                             row.insertCell(0).textContent = c.tripBookingId || '';
                             row.insertCell(1).textContent = c.pickupLocation || '';  // Handle null or undefined values
                             row.insertCell(2).textContent = c.fromDateTime || '';
-
                             row.insertCell(3).textContent = c.toDateTime || '';
                             row.insertCell(4).textContent = c.price || '';
-                            
-                            
                             row.insertCell(5).textContent = c.driver.userName || 'NoDriverAssigned';
-                            const updateButton = document.createElement('button');
-                       
-                         
-                           
                         });
 
                     } else {
@@ -282,6 +289,34 @@
                 alert('Please enter a Booking ID');
             }
         });
+
+    document.getElementById('dateRangeSearchButton').addEventListener('click', function () {
+    const fromDateTime = document.getElementById('fromDateTime').value;
+    const toDateTime = document.getElementById('toDateTime').value;
+    const uuid = localStorage.getItem('uuid');
+    const customerId = localStorage.getItem('currUserId'); // Assuming you store customerId in localStorage
+
+    if (fromDateTime && toDateTime) {
+        const formattedFromDateTime = formatDateTime(fromDateTime);
+        const formattedToDateTime = formatDateTime(toDateTime);
+        
+        const searchUrl = `http://localhost:1995/admin/getAllTripsForDays/${formattedFromDateTime}/${formattedToDateTime}?customerId=${customerId}&uuid=${uuid}`;
+        fetchAndDisplayBookings(searchUrl);
+    } else {
+        alert('Please select both from and to date and time.');
+    }
+});
+
+function formatDateTime(dateTime) {
+    const date = new Date(dateTime);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+}
     </script>
 </body>
 

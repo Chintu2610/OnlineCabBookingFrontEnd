@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 50%;
+        }
+        #map{
+            height: 50vh;
+            margin-bottom: 10px;
+            display: none;
+        }
+        #locationList .card{
+            padding: 10px;
+        }
+        #toast-container{
+            top: 50%;
+            bottom: unset;
+        }
+        .toast{
+            background-color: rgba(0,0,0,.8);
+        }
+        .btn i{
+            font-size: 1rem;
+            margin-right: 2px;
+        }
+        @media only screen and (min-width: 768px){
+            .container{
+                width: 80%;
+                max-width: 800px;
+            }
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPNhcFAoN0FuY9jsfEjEC6rqhvkV6UFjk&libraries=places"></script>
+</head>
+<body>
+    <div class="container">
+        <h4>Pickup Location</h4>
+        <p>You can click the button below to use your current location as your shipping address</p>
+        <div id="map"></div>
+        <p id="current_position"></p>
+        <button id="showMe" class="btn center-align">
+            <i class="material-icons">my_location</i>
+            Use My Location
+        </button>
+        <form id="billingAddress">
+            <div id="locationList"></div>
+            <br>
+            <div class="input-field">
+                <textarea class="materialize-textarea" id="address" type="text"></textarea>
+                <label class="active" for="address">Address (Area and Street)</label>
+            </div>
+            <div class="input-field">
+                <input id="locality" type="text">
+                <label class="active" for="locality">Locality</label>
+            </div>
+            <div class="input-field">
+                <input id="city" type="text">
+                <label class="active" for="city">City/District/Town</label>
+            </div>
+            <div class="input-field">
+                <input id="postal_code" type="text">
+                <label class="active" for="pin_code">Pin Code</label>
+            </div>
+            <div class="input-field">
+                <input id="landmark" type="text">
+                <label class="active" for="landmark">Landmark</label>
+            </div>
+            <div class="input-field">
+                <input id="state" type="text">
+                <label class="active" for="State">State</label>
+            </div>
+        </form>
+    </div>
+    <script>
+        const mapArea = document.getElementById('map');
+        const $ = id => document.getElementById(id);
+        const actionBtn = document.getElementById('showMe');
+        const locationsAvailable = document.getElementById('locationList');
+        let Gmap, Gmarker;
+        const __KEY = "AIzaSyCPNhcFAoN0FuY9jsfEjEC6rqhvkV6UFjk"; // replace with your actual API key
+
+        actionBtn.addEventListener('click', e => {
+            actionBtn.style.display = "none";
+            M.toast({ html: 'I am fetching your current location', classes: 'rounded' });
+            getLocation();
+        });
+
+        const getLocation = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(displayLocation, showError, options);
+            } else {
+                M.toast({ html: 'Sorry, your browser does not support this feature... Please Update your Browser to enjoy it', classes: 'rounded' });
+            }
+        };
+
+        const displayLocation = (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const latlng = { lat, lng };
+            showMap(latlng, lat, lng);
+            createMarker(latlng);
+            mapArea.style.display = "block";
+            getGeolocation(lat, lng);
+        };
+
+        const showMap = (latlng, lat, lng) => {
+            let mapOptions = {
+                center: latlng,
+                zoom: 17
+            };
+            Gmap = new google.maps.Map(mapArea, mapOptions);
+            Gmap.addListener('drag', function () {
+                Gmarker.setPosition(this.getCenter());
+            });
+            Gmap.addListener('dragend', function () {
+                Gmarker.setPosition(this.getCenter());
+            });
+            Gmap.addListener('idle', function () {
+                Gmarker.setPosition(this.getCenter());
+                if (Gmarker.getPosition().lat() !== lat || Gmarker.getPosition().lng() !== lng) {
+                    setTimeout(() => {
+                        updatePosition(this.getCenter().lat(), this.getCenter().lng());
+                    }, 2000);
+                }
+            });
+        };
+
+        const createMarker = (latlng) => {
+            let markerOptions = {
+                position: latlng,
+                map: Gmap,
+                animation: google.maps.Animation.BOUNCE,
+                clickable: true
+            };
+            Gmarker = new google.maps.Marker(markerOptions);
+        };
+
+        const updatePosition = (lat, lng) => {
+            getGeolocation(lat, lng);
+        };
+
+        const showError = (error) => {
+            mapArea.style.display = "block";
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    mapArea.innerHTML = "You denied the request for your location.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    mapArea.innerHTML = "Your Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    mapArea.innerHTML = "Your request timed out. Please try again.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    mapArea.innerHTML = "An unknown error occurred. Please try again later.";
+                    break;
+            }
+        };
+
+        const options = {
+            enableHighAccuracy: true
+        };
+
+        const getGeolocation = (lat, lng) => {
+            const latlng = lat + "," + lng;
+            fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${__KEY}`)
+                .then(res => res.json())
+                .then(data => populateCard(data.results));
+        };
+
+        const removeAddressCards = () => {
+            while (locationsAvailable.firstChild) {
+                locationsAvailable.removeChild(locationsAvailable.firstChild);
+            }
+        };
+
+        const populateCard = (geoResults) => {
+            removeAddressCards();
+            geoResults.forEach(geoResult => {
+                const addressCard = document.createElement('div');
+                const input = document.createElement('input');
+                const label = document.createElement('label');
+                addressCard.classList.add("card");
+                input.classList.add("with-gap");
+                label.setAttribute("for", geoResult.place_id);
+                label.innerHTML = geoResult.formatted_address;
+                input.setAttribute("name", "address");
+                input.setAttribute("type", "radio");
+                input.setAttribute("value", geoResult.formatted_address);
+                input.setAttribute("id", geoResult.place_id);
+                input.addEventListener('click', () => inputClicked(geoResult));
+                addressCard.appendChild(input);
+                addressCard.appendChild(label);
+                locationsAvailable.appendChild(addressCard);
+            });
+        };
+
+        const inputClicked = (result) => {
+            result.address_components.forEach(component => {
+                const types = component.types;
+                if (types.includes('postal_code')) {
+                    $('postal_code').value = component.long_name;
+                }
+                if (types.includes('locality')) {
+                    $('locality').value = component.long_name;
+                }
+                if (types.includes('administrative_area_level_2')) {
+                    $('city').value = component.long_name;
+                }
+                if (types.includes('administrative_area_level_1')) {
+                    $('state').value = component.long_name;
+                }
+                if (types.includes('point_of_interest')) {
+                    $('landmark').value = component.long_name;
+                }
+            });
+            $('address').value = result.formatted_address;
+            M.updateTextFields();
+            removeAddressCards();
+        };
+    </script>
+</body>
+</html>

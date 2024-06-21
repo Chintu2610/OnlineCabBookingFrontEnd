@@ -77,11 +77,7 @@
                         
                     <div class="row align-items-center">
 						<div class="col">
-							<div id="welcomeMessage"
-								style="text-align: center; margin-top: 20px; font-size: 24px;margin-left: 300px;">
-								Welcome
-								
-							</div>
+							
 							<h3 class="page-title">Cab's</h3>
 							<ul class="breadcrumb">
 								<li class="breadcrumb-item"><a
@@ -90,30 +86,25 @@
 							</ul>
 						</div>
 						
-						<div class="col-auto ml-auto">
+						<br><div class="col-auto ml-auto">
                             
                         
-                            <a href="CabController(Register).html" class="Addbutton" data-toggle="modal" data-target="#Tripcntrbookreq">
-                                <i class="fa fa-plus"></i> Register
-                            </a>
-                        
+                           
                             
                         </div>                        
     <div id="abc">                 
 <div id="customerTableContainer" style="margin-top: 20px;">
-    <table class="table table-bordered table-light">
+    <table class="table table-light">
         <thead class="table-dark">
             <tr>
-                <th>Cab Id</th>
-                <th>Current Location</th>
-                <th>Current Status</th>
-                <th>Car Name</th>
-                <th>Car Number</th>
-                <th>car Type</th>
-                <th>Per_km_Rate</th>
-                <th>Image</th>
+              
+                <th>AdminId</th>
+                <th>userName</th>
+                <th>address</th>
+                <th>mobileNumber</th>
+                <th>email</th>
+                
                 <th>Action</th>
-                <th></th>
                 <!-- Add more table headers as needed -->
             </tr>
         </thead>
@@ -130,10 +121,6 @@
 </div>
 </div>
 </div>
-<!-- Add your JavaScript includes here -->
-<!-- <script src="../js/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script> -->
 <script> 
 // Load header content
 fetch('header.html')
@@ -141,32 +128,16 @@ fetch('header.html')
 .then(data => document.getElementById('header').innerHTML = data)
 .catch(error => console.error('Error fetching header:', error));
 // Load sidebar content
-fetch('sidebar.html')
-.then(response => response.text())
-.then(data => document.getElementById('sidebar').innerHTML = data)
-.catch(error => console.error('Error fetching sidebar:', error));
+
 </script>
 <script>
-   function handleUpdateClick(cabId, currLocation, cabCurrStatus, carName, carNumber, carType, perKmRate) {
-    const url = 'update_cab.html' +
-        '?cabId=' + encodeURIComponent(cabId) +
-        '&currLocation=' + encodeURIComponent(currLocation) +
-        '&cabCurrStatus=' + encodeURIComponent(cabCurrStatus) +
-        '&carName=' + encodeURIComponent(carName) +
-        '&carNumber=' + encodeURIComponent(carNumber) +
-        '&carType=' + encodeURIComponent(carType) +
-        '&perKmRate=' + encodeURIComponent(perKmRate) +
-        '&uuid=' + encodeURIComponent(localStorage.getItem('uuid'));
-    // Redirect to the new page
-    window.location.href = url;
-    console.log('Update button clicked for cabId:', cabId);
-}
 
 // Function to handle the click event of the delete button
-function handleDeleteClick(cabId) {
+function handleDeleteClick(adminId) {
             var uuId = localStorage.getItem('uuid');
-            var baseUrl = "http://localhost:1995/cab/delete?uuid=";
-            var url = baseUrl + uuId + "&cabId=" + cabId;
+            var adminIdInt = parseInt(adminId, 10);
+            var baseUrl = "http://localhost:1995/admin/delete?uuid=";
+            var url = baseUrl + uuId + "&adminId=" + adminIdInt;
 
             // Send a DELETE request to delete the cab
             fetch(url, {
@@ -174,22 +145,25 @@ function handleDeleteClick(cabId) {
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Failed to delete cab');
+                        throw new Error('Failed to delete admin');
                     }
                     // Cab deleted successfully, show success alert
-                    alert('Cab deleted successfully');
+                    alert('admin deleted successfully');
+                    window.location.reload();
                 })
                 .catch(error => {
                     console.error('Error deleting cab:', error);
                     // Show error alert if deletion fails
-                    alert('Failed to delete cab');
+                    alert('Failed to delete admin');
                 });
         }
     
-let baseUrl = "http://localhost:1995/cab/getAllAvailableCab?uuid=";
+        let baseUrl = "http://localhost:1995/admin/getAllAdmin?";
 let uuid = localStorage.getItem("uuid");
-let url = baseUrl + uuid;
-function fetchAndDisplayCabs() {
+let email = localStorage.getItem("email");
+
+let url = `${baseUrl}uuid=${uuid}&email=${email}`;
+function fetchAndDisplayAdmins() {
 fetch(url, {
 method: 'GET',
 headers: {
@@ -209,58 +183,19 @@ TableBody.innerHTML = ''; // Clear existing rows
 if (data && data.length > 0) {
 data.forEach(c => {
 const row = TableBody.insertRow();
-row.insertCell(0).textContent = c.cabId || '';  // Handle null or undefined values
-row.insertCell(1).textContent = c.currLocation || '';
-row.insertCell(2).textContent = c.cabCurrStatus || '';
-row.insertCell(3).textContent = c.carName || '';
-row.insertCell(4).textContent = c.carNumber || '';
-row.insertCell(5).textContent = c.carType || '';
-row.insertCell(6).textContent = c.perKmRate || '';
-
-  // Create an image element for the cab image
-  const imageCell = row.insertCell(7);
-                if (c.cabImage) {
-                var currentUrl = window.location.href;
-                var baseUrl = currentUrl.split('/').slice(0, 3).join('/');
-                var assetsUrl = baseUrl + '/assets/cab-images/';
-
-                // Check if service has an image URL
-                var imageUrl;
-                if (c.cabImage !== null) {
-                    // Generate the image URL by concatenating the assets URL with the service image URL
-                    imageUrl = assetsUrl + c.cabImage;
-                } else {
-                    // If there's no image URL, use a default image
-                    imageUrl = assetsUrl + 'NOImage.jpg';
-                }
-
-                
-                    const imageElement = document.createElement('img');
-                    imageElement.src = imageUrl; // Assuming the cabImage field contains the relative path
-                    imageElement.alt = 'Cab Image';
-                    imageElement.style.width = '100px'; // Set the desired width
-                    imageElement.style.height = 'auto'; // Set the desired height
-                    imageCell.appendChild(imageElement);
-                } else {
-                    imageCell.textContent = 'No Image'; // Placeholder text if no image is available
-                }
-
-const updateButton = document.createElement('button');
-                    updateButton.textContent = 'Update';
-                    updateButton.classList.add('btn', 'btn-primary', 'mr-2');
-                    updateButton.addEventListener('click', () => {
-                        handleUpdateClick(c.cabId, c.currLocation, c.cabCurrStatus, c.carName, c.carNumber, c.carType, c.perKmRate);
-                   });
-                    const updateCell = row.insertCell(8);
-                    updateCell.appendChild(updateButton);
+row.insertCell(0).textContent = c.adminId || ''; 
+row.insertCell(1).textContent = c.userName || '';
+row.insertCell(2).textContent = c.address || '';
+row.insertCell(3).textContent = c.mobileNumber || '';
+row.insertCell(4).textContent = c.email || '';
 
                     const deleteButton = document.createElement('button');
                     deleteButton.textContent = 'Delete';
                     deleteButton.classList.add('btn', 'btn-danger');
                     deleteButton.addEventListener('click', () => {
-                        handleDeleteClick(c.cabId);
+                        handleDeleteClick(c.adminId);
                     });
-                    const deleteCell = row.insertCell(9);
+                    const deleteCell = row.insertCell(5);
                     deleteCell.appendChild(deleteButton);
 });
 } else {
@@ -271,8 +206,7 @@ console.log('No data found.');
 .catch(error => console.error('Error fetching drivers:', error));
 }
 // Call fetchAndDisplayDrivers when the page loads
-window.onload = fetchAndDisplayCabs;
-
+window.onload = fetchAndDisplayAdmins;
 </script>
 </body>
 </html>

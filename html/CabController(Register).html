@@ -43,11 +43,31 @@
     .modal-header {
       width: 100%;
     }
+    body {
+    position: relative; /* Needed to position the pseudo-element */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    min-height: 100vh; 
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/cab-3.png);
+    background-size: cover; /* Adjust as needed */
+    background-position: center; /* Adjust as needed */
+    opacity: 0.7; /* Change this value to make the image more or less transparent */
+    z-index: -1; /* Ensure the image is behind other content */
+}
   </style>
 </head>
 
 <body>
-  <div class="main-wrapper">
+  <div class="main-wrapper myclass">
     <div id="header"></div>
     <div class="sidebar" style="width: 200px;">
       <iframe src="sidebar.html" width="100%" height="650px" frameborder="0"></iframe>
@@ -65,98 +85,126 @@
                 <li class="breadcrumb-item active">Resister Cabs</li>
               </ul>
               <br>
-              <form id="registrationForm">
-                <div class="container" style="width:750px;margin-right: 150px;height: 350px;">
-                  <div class="row" style="margin-left: 100px;">
-                    <div class="col-md-6">
-                      <div class="form-group" style="padding: 3px;">
-                        <label for="carType" class="form-label">Car Type:</label>
-                        <input type="text" class="form-control" id="carType" name="carType" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="carNumber" class="form-label">Car Number:</label>
-                        <input type="text" class="form-control" id="carNumber" name="carNumber" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="currentstatus" class="form-label">Cab Current Status:</label>
-                        <!-- <input type="text" class="form-control" id="currentstatus" name="currentstatus"> -->
-                        <select class="form-control" id="currentstatus" name="currentstatus">
-                          <option value="available">Available</option>
-                          <option value="not_available">Not Available</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="carName" class="form-label">Car Name:</label>
-                        <input type="text" class="form-control" id="carName" name="carName" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="kmperrate" class="form-label">Per Hour Rate:</label>
-                        <input type="number" class="form-control" id="kmperrate" name="kmperrate">
-                      </div>
-                      <div class="form-group">
-                        <label for="currentlocation" class="form-label">Current Location:</label>
-                        <input type="text" class="form-control" id="currentlocation" name="currentlocation">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="submit-section text-center" style="margin-right: 200px;">
-                  <button type="submit" class="btn btn-primary">Register</button>
-                </div>
-              </form>
+             <form id="registrationForm" enctype="multipart/form-data">
+  <div class="container" >
+    <div class="row" style="margin-left: 100px;">
+      <div class="col-md-6">
+        <!-- Existing form fields -->
+        <div class="form-group" style="padding: 3px;">
+          <label for="carType" class="form-label">Car Type:</label>
+          <select class="form-control" id="carType" name="carType" required>
+            <option value="" disabled selected>Select car type</option>
+            <option value="standard">Standard/Regular Cab</option>
+            <option value="luxury">Luxury/Executive Cab</option>
+            <option value="suv">SUV/MUV</option>
+            <option value="minivan">Minivan/MPV</option>
+            <option value="electric">Electric/Hybrid Cab</option>
+            <option value="wheelchair_accessible">Wheelchair Accessible Cab</option>
+            <option value="economy">Economy Cab</option>
+            <option value="shared">Shared/Ride-Share Cab</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="carNumber" class="form-label">Car Number:</label>
+          <input type="text" class="form-control" id="carNumber" name="carNumber" required>
+        </div>
+        <div class="form-group">
+          <label for="currentstatus" class="form-label">Cab Current Status:</label>
+          <select class="form-control" id="currentstatus" name="currentstatus">
+            <option value="available">Available</option>
+            <option value="not_available">Not Available</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="carImage" class="form-label">Upload Car Image:</label>
+          <input type="file" class="form-control" id="carImage" name="carImage" accept="image/*">
+          <small class="text-muted">Max file size: 1 MB</small>
+      </div>
+      
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+              var input = document.getElementById('carImage');
+              
+              input.addEventListener('change', function () {
+                  var file = this.files[0];
+                  var fileSize = file.size / 1024 / 1024; // in MB
+                  
+                  if (fileSize > 1) {
+                      alert('File size exceeds 1 MB. Please choose a smaller file.');
+                      this.value = ''; // Reset the file input
+                  }
+              });
+          });
+      </script>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="carName" class="form-label">Car Name:</label>
+          <input type="text" class="form-control" id="carName" name="carName" required>
+        </div>
+        <div class="form-group">
+          <label for="kmperrate" class="form-label">Per Hour Rate:</label>
+          <input type="number" class="form-control" id="kmperrate" name="kmperrate">
+        </div>
+        <div class="form-group">
+          <label for="currentlocation" class="form-label">Current Location:</label>
+          <input type="text" class="form-control" id="currentlocation" name="currentlocation">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="submit-section text-center">
+    <button type="submit" class="btn btn-primary">Register</button>
+  </div>
+</form>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <script src="../js/jquery-3.6.0.min.js"></script>
-  <script src="../js/bootstrap.bundle.min.js"></script>
+  <script src="../js/jquery-3.2.1.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
   <script>
     fetch('header.html')
       .then(response => response.text())
       .then(data => document.getElementById('header').innerHTML = data)
       .catch(error => console.error('Error fetching header:', error));
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => document.getElementById('sidebar').innerHTML = data)
-      .catch(error => console.error('Error fetching sidebar:', error));
-    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+  
+      document.getElementById('registrationForm').addEventListener('submit', function (event) {
+  event.preventDefault();
 
-      event.preventDefault();
-      const formData = {
-        carType: document.getElementById('carType').value,
-        carName: document.getElementById('carName').value,
-        carNumber: document.getElementById('carNumber').value,
-        perKmRate: document.getElementById('kmperrate').value,
-        cabCurrStatus: document.getElementById('currentstatus').value,
-        currLocation: document.getElementById('currentlocation').value
-      };
-      console.log(JSON.stringify(formData));
-      fetch('http://localhost:1995/cab/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-        .then(response => {
-          if (response.status === 201) {
-            window.location.href = 'CabController.html';
-            alert("registerd successfully.");
-          } else {
-            return response.json();
-          }
-        })
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    });
+  // Create a FormData object to gather all form data, including the file
+  const formData = new FormData();
+  formData.append('file', document.getElementById('carImage').files[0]);
+  formData.append('carType', document.getElementById('carType').value);
+  formData.append('carName', document.getElementById('carName').value);
+  formData.append('carNumber', document.getElementById('carNumber').value);
+  formData.append('perKmRate', document.getElementById('kmperrate').value);
+  formData.append('currLocation', document.getElementById('currentlocation').value);
+  formData.append('cabCurrStatus', document.getElementById('currentstatus').value);
+
+  // Perform the POST request using fetch
+  fetch('http://localhost:1995/cab/register', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (response.ok) {
+      alert("Registered successfully.");
+      window.location.href = 'CabController.html';
+    } else {
+      return response.json().then(error => {
+        throw new Error(error.message);
+      });
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Error registering cab: ' + error.message);
+  });
+});
+
   </script>
 </body>
 
