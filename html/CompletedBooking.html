@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Add your CSS includes here -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/M.css">
+    <!-- Add any additional CSS files if needed -->
+    <style>
+        #abc {
+            overflow-x: auto;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            /* Allow wrapping to the next row */
+        }
+
+        .sidebar {
+            width: 15%;
+            /* Adjust as needed */
+        }
+
+        .page-wrapper {
+            width: 75%;
+            /* Adjust as needed */
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        #welcomeMessage {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            margin-left: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <!-- No iframe for header, content loaded via fetch -->
+        <div id="header"></div>
+
+        <div class="sidebar" style="width: 200px;">
+            <iframe src="sidebar.html" width="100%" height="650px" frameborder="0"></iframe>
+        </div>
+
+
+        <div class="page-wrapper" style="margin-top: 0%;">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+
+                <!-- Page Header -->
+                <div class="page-header">
+
+
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div id="welcomeMessage">
+                                Welcome
+                            </div>
+                            <h3 class="page-title">Booking history</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="admin_dashboard.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Booking history</li>
+                            </ul>
+                        </div>
+
+                        <br><br><br><br><br><br><br><br>
+                        <div class="col-auto ml-auto">
+
+
+                            <!-- <a href="CustomerController(Register).html" class="Addbutton" data-toggle="modal"
+                                data-target="#Tripcntrbookreq " style="font-size: 20px;" >
+                                Register
+                            </a> -->
+
+                            <div class="col-auto ml-auto">
+                                <!-- Search Form -->
+                                <div class="input-group">
+                                    <input type="text" id="searchBookingId" class="form-control" placeholder="Enter Booking ID">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" id="searchButton">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div id="abc">
+                            <div id="customerTableContainer" style="margin-top: 20px;">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Booking ID</th>
+                                        <th>Pickup Location</th>
+                                        <th>Pickup Date & Time</th>
+                                        <th>Dropoff Date & Time</th>
+                                        <th>Price (INR)</th>
+                                        <th>Destination KMs</th>
+                                        <th>Driver ID</th>
+                                        <th>ACtion</th>
+
+                                            <!-- Add more table headers as needed -->
+                                        </tr>
+                                    </thead>
+                                    <tbody id="customerTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End Page Header -->
+
+                    </div>
+                    <!-- End Page Content -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    </div>
+    <!-- Add your JavaScript includes here -->
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <!-- Other JavaScript includes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script>
+        // Load header content
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('header').innerHTML = data)
+            .catch(error => console.error('Error fetching header:', error));
+
+        // Load sidebar content
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('sidebar').innerHTML = data)
+            .catch(error => console.error('Error fetching sidebar:', error));
+
+
+            var apiUrl = "http://localhost:1995/admin/getAllTrips";
+        var uuid = localStorage.getItem("uuid");
+
+        // Function to fetch and display bookings
+        function fetchAndDisplayBookings(url) {
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response data:', data); // Log the response data for debugging
+
+                    const TableBody = document.getElementById('customerTableBody');
+                    TableBody.innerHTML = ''; // Clear existing rows
+
+                    if (data && (Array.isArray(data) ? data.length > 0 : data)) {
+                        const bookings = Array.isArray(data) ? data : [data]; // Handle single object or array
+                        bookings.forEach(c => {
+                            const row = TableBody.insertRow();
+                            row.insertCell(0).textContent = c.tripBookingId || '';
+                            row.insertCell(1).textContent = c.pickupLocation || '';
+                            row.insertCell(2).textContent = c.fromDateTime || '';
+                            row.insertCell(3).textContent = c.toDateTime || '';
+                            row.insertCell(4).textContent = c.price || '';
+                            row.insertCell(5).textContent = c.distanceInKm || 'No Kms';
+                            row.insertCell(6).textContent = c.driverId|| 'No Driver Assigned';
+
+                            const updateButton = document.createElement('button');
+                            updateButton.textContent = 'Assign Driver';
+                            updateButton.classList.add('btn', 'btn-primary', 'mr-2');
+                            updateButton.addEventListener('click', () => {
+                                AssignDriver(c.tripBookingId);
+                            });
+                            const updateCell = row.insertCell(7);
+                            updateCell.appendChild(updateButton);
+                        });
+                    } else {
+                        console.log('No data found.');
+                    }
+                })
+                .catch(error => console.error('Error fetching bookings:', error));
+        }
+
+        // Initial fetch to display all bookings
+        // window.onload = function () {
+        //     fetchAndDisplayBookings(apiUrl + "?uuid=" + uuid);
+        // };
+
+        // Search button click event
+        document.getElementById('searchButton').addEventListener('click', function () {
+            const bookingId = document.getElementById('searchBookingId').value;
+            if (bookingId) {
+                const searchUrl = "http://localhost:1995/tripBooking/viewBookingbyId?TripBookingId=" + bookingId + "&uuid=" + uuid;
+                fetchAndDisplayBookings(searchUrl);
+            } else {
+                alert('Please enter a Booking ID');
+            }
+        });
+
+    </script>
+
+    <script>
+        var url = "http://localhost:1995/admin/getAllTrips";
+      
+        var uuid = localStorage.getItem("uuid");
+        url += "?uuid=" + uuid;
+       
+        function fetchAndDisplayDrivers() {
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response data:', data); // Log the response data for debugging
+
+                    const TableBody = document.getElementById('customerTableBody');
+                    TableBody.innerHTML = ''; // Clear existing rows
+
+                    if (data && data.length > 0) {
+                        data.forEach(c => {
+                            const row = TableBody.insertRow();
+                            row.insertCell(0).textContent = c.tripBookingId || '';
+                            row.insertCell(1).textContent = c.pickupLocation || '';  // Handle null or undefined values
+                            row.insertCell(2).textContent = c.fromDateTime || '';
+
+                            row.insertCell(3).textContent = c.toDateTime || '';
+                            row.insertCell(4).textContent = c.price || '';
+                            row.insertCell(5).textContent = c.distanceInKm || 'No Kms';
+                         
+                            row.insertCell(6).textContent = c.driver ? c.driver.driverId : 'No Driver Assigned';
+                            const updateButton = document.createElement('button');
+                            updateButton.textContent = 'Assign Driver';
+                            updateButton.classList.add('btn', 'btn-primary', 'mr-2');
+                            updateButton.addEventListener('click', () => {
+                                AssignDriver(c.tripBookingId);
+                            });
+                            const updateCell = row.insertCell(7);
+                            updateCell.appendChild(updateButton);
+
+                            // const deleteButton = document.createElement('button');
+                            // deleteButton.textContent = 'Delete';
+                            // deleteButton.classList.add('btn', 'btn-danger');
+                            // deleteButton.addEventListener('click', () => {
+                            //     redirectToDeletePage(c.customerId);
+                            // });
+                            // const deleteCell = row.insertCell(7);
+                            // deleteCell.appendChild(deleteButton);
+                        });
+
+                    } else {
+                        console.log('No data found.');
+                    }
+                })
+                .catch(error => console.error('Error fetching drivers:', error));
+        }
+        window.onload = fetchAndDisplayDrivers;
+        function AssignDriver(tripBookingId) {
+    const uuid = localStorage.getItem("uuid"); // replace with the actual uuid if dynamic
+    alert(uuid);
+    var url = 'http://localhost:1995/tripBooking/AssignDriverByAdmin';
+    url+="?TripBookingId="+tripBookingId;
+    url+="&uuid="+uuid;
+    const data = {
+        TripBookingId: tripBookingId,
+        uuid: uuid
+    };
+
+    fetch(url, {
+        method: 'PUT', // Changed to POST
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        alert("Assigned driver successfully.");
+        return response.json();
+    })
+    .then(data => {
+        console.log('Driver assigned successfully:', data);
+        // Add any additional logic to handle the response data here
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+
+        function redirectToDeletePage(customerId) {
+            // Redirect to delete page with customerId as query parameter
+            window.location.href = 'delete_customerByadmin.html?customerId=' + customerId;
+        }
+        // Search button click event
+        document.getElementById('searchButton').addEventListener('click', function () {
+            const bookingId = document.getElementById('searchBookingId').value;
+            if (bookingId) {
+                const searchUrl = "http://localhost:1995/tripBooking/viewBookingbyId?TripBookingId=" + bookingId + "&uuid=" + uuid;
+                fetchAndDisplayBookings(searchUrl);
+            } else {
+                alert('Please enter a Booking ID');
+            }
+        });
+    </script>
+</body>
+
+</html>
