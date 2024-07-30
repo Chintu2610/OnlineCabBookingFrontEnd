@@ -80,10 +80,6 @@
                 <div class="page-header">
                     <div class="row align-items-center">
                         <div class="col">
-                            <div id="welcomeMessage" style="text-align: center; margin-top: 20px; font-size: 24px;">
-                                Welcome
-                            </div>
-                            <h3 class="page-title">Cab's</h3>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="admin_dashboard.html">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Update Cab</li>
@@ -92,38 +88,57 @@
                     </div>
                 </div>
                 <!-- End Page Header -->
-                <div class="container mt-4 form-container">
-                    <form id="updateCabForm">
-                        <div class="mb-3">
-                            <label for="cabId" class="form-label">Cab ID</label>
-                            <input type="text" class="form-control" id="cabId" readonly>
+                <div class="user-id-container d-flex justify-content-center align-items-center">
+                    <div class="container-fluid" style="background-color: #0c0a0a; padding: 20px; border-radius: 10px; margin-right: 60px;">
+                    <form id="updateCabForm" enctype="multipart/form-data">
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="cabId" class="form-label">Cab ID</label>
+                                <input type="text" class="form-control" id="cabId" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="currLocation" class="form-label">Current Location</label>
+                                <input type="text" class="form-control" id="currLocation" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="currLocation" class="form-label">Current Location</label>
-                            <input type="text" class="form-control" id="currLocation" required>
-                        </div>
-                        <div class="mb-3">
+                        <div class="form-group row">
+                        <div class="col-md-6">
                             <label for="cabCurrStatus" class="form-label">Current Status</label>
                             <input type="text" class="form-control" id="cabCurrStatus" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="col-md-6">
                             <label for="carName" class="form-label">Car Name</label>
                             <input type="text" class="form-control" id="carName" required>
                         </div>
-                        <div class="mb-3">
+                        </div>
+                        <div class="form-group row">
+                        <div class="col-md-6">
                             <label for="carNumber" class="form-label">Car Number</label>
                             <input type="text" class="form-control" id="carNumber"  readonly>
                         </div>
-                        <div class="mb-3">
+                        <div class="col-md-6">
                             <label for="carType" class="form-label">Car Type</label>
                             <input type="text" class="form-control" id="carType" required>
                         </div>
-                        <div class="mb-3">
+                        </div>
+                        <div class="form-group row">
+                        <div class="col-md-6">
                             <label for="perKmRate" class="form-label">Rate(Per KM)</label>
                             <input type="text" class="form-control" id="perKmRate" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Cab</button>
+                        <div class="col-md-6">
+                            <label for="carImage" class="form-label">Car Image:</label>
+                            <input type="file" class="form-control" id="carImage" name="carImage" accept="image/*">
+                            <small class="text-muted">Max file size: 1 MB</small>
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary">Update Cab</button>
+                            </div>
+                        </div>
                     </form>
+                </div>
                 </div>
                 <!-- End Page Content -->
             </div>
@@ -132,6 +147,21 @@
 
     <!-- Load header and sidebar content -->
     <script>
+        
+          document.addEventListener('DOMContentLoaded', function () {
+              var input = document.getElementById('carImage');
+              
+              input.addEventListener('change', function () {
+                  var file = this.files[0];
+                  var fileSize = file.size / 1024 / 1024; // in MB
+                  
+                  if (fileSize > 1) {
+                      alert('File size exceeds 1 MB. Please choose a smaller file.');
+                      this.value = ''; // Reset the file input
+                  }
+              });
+          });
+      
         // Load header content
         fetch('header.html')
             .then(response => response.text())
@@ -144,10 +174,6 @@
             .then(data => document.getElementById('sidebar').innerHTML = data)
             .catch(error => console.error('Error fetching sidebar:', error));
     </script>
-
-    
-    
-
     <!-- Custom JavaScript -->
     <script>
         // Extract query parameters from URL
@@ -172,83 +198,53 @@
         // Handle form submission
        
     </script>
-     <!-- <script>
-         
-        // Function to fetch data from API and populate the input fields
-        function populateFields() {
-            var currentrole=localStorage.getItem('currRole');
-            var userId = localStorage.getItem('currUserId');
-            var uuId=localStorage.getItem('uuid');
-            var url;
-            
-            url = 'http://localhost:1995/customer/viewCustomerProfile';
-            url += '?customerId='+userId;
-            
-             // Example: Replace param1 and value1 with your actual request variables
-            url += '&uuid='+uuId;
-            $.ajax({
-                url: url, // Replace this URL with your API endpoint
-                type: 'GET',
-                success: function(data) {
-                    $('#username').val(data.userName);
-                    $('#address').val(data.address);
-                    $('#phone').val(data.mobileNumber);
-                    $('#email').val(data.email);
-                    $('#userid').val(data.customerId);
-                    $('#password').val(data.password);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching data:', error);
-                }
-            });
-        }
-
-        // Call the populateFields function when the page loads
-        $(document).ready(function() {
-            populateFields();
-        });
-    </script> -->
     <script>
         var userrole = localStorage.getItem('currRole');
         // Function to handle form submission
         $('#updateCabForm').submit(function(e) {
-            e.preventDefault(); // Prevent the default form submission
-            
-            // Collect updated details from form fields
-            var updatedDetails = {
-                cabId: parseInt($('#cabId').val()),
-                carType:$('#carType').val(),
-                carName:$('#carName').val(),
-                carNumber:$('#carNumber').val(),
-                perKmRate:parseInt($('#perKmRate').val()),
-                CurrLocation:$('#currLocation').val(),   
-                cabCurrStatus:($('#cabCurrStatus').val())             
-                // cabCurrStatus:parseInt($('#cabCurrStatus').val())
-            };
-            var uuId=localStorage.getItem('uuid');
-            
-            var url='http://localhost:1995/cab/update';
-            url += '?uuid='+uuId;
-            // AJAX call to update details
-            $.ajax({
-                url: url, // Replace with your backend script URL
-                type: 'PUT',
-                headers: {
-            'Content-Type': 'application/json',
-            },
-                data: JSON.stringify(updatedDetails),
-                success: function(response) {
-                    // Handle success response
-                    alert('Details updated successfully:', response);
-                    // Optionally, perform actions like showing a success message or redirecting
-                },
-                error: function(xhr, status, error) {
-                    // Handle error response
-                    alert('Error updating details:', error);
-                    // Optionally, show an error message to the user
-                }
-            });
-        });
+    e.preventDefault(); // Prevent the default form submission
+
+    // Create a FormData object to handle file uploads
+    var formData = new FormData();
+    formData.append('cabId', parseInt($('#cabId').val()));
+    formData.append('carType', $('#carType').val());
+    formData.append('carName', $('#carName').val());
+    formData.append('carNumber', $('#carNumber').val());
+    formData.append('perKmRate', parseInt($('#perKmRate').val()));
+    formData.append('currLocation', $('#currLocation').val());
+    formData.append('cabCurrStatus', $('#cabCurrStatus').val());
+
+    // Append the file if it is selected
+    var fileInput = $('#carImage')[0];
+    if (fileInput.files.length > 0) {
+        formData.append('carImage', fileInput.files[0]);
+    }
+
+    var uuId = localStorage.getItem('uuid');
+    var url = 'http://localhost:1995/cab/update?uuid=' + uuId;
+
+    // AJAX call to update details
+    $.ajax({
+        url: url, // Replace with your backend script URL
+        type: 'PUT',
+        data: formData,
+        processData: false, // Don't process the data
+        contentType: false, // Set content type to false to let jQuery set it
+        success: function(response) {
+            // Handle success response
+            alert('Details updated successfully: ' + response);
+            // Optionally, perform actions like showing a success message or redirecting
+        },
+        error: function(xhr, status, error) {
+            // Handle error response
+            alert('Error updating details: ' + xhr.responseText);
+            // Optionally, show an error message to the user
+        }
+    });
+});
+
+
+
     </script>
 </body>
 

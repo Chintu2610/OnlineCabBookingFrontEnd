@@ -121,21 +121,7 @@ body::before {
           <small class="text-muted">Max file size: 1 MB</small>
       </div>
       
-      <script>
-          document.addEventListener('DOMContentLoaded', function () {
-              var input = document.getElementById('carImage');
-              
-              input.addEventListener('change', function () {
-                  var file = this.files[0];
-                  var fileSize = file.size / 1024 / 1024; // in MB
-                  
-                  if (fileSize > 1) {
-                      alert('File size exceeds 1 MB. Please choose a smaller file.');
-                      this.value = ''; // Reset the file input
-                  }
-              });
-          });
-      </script>
+      
       </div>
       <div class="col-md-6">
         <div class="form-group">
@@ -165,6 +151,21 @@ body::before {
   </div>
   <script src="../js/jquery-3.2.1.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var input = document.getElementById('carImage');
+        
+        input.addEventListener('change', function () {
+            var file = this.files[0];
+            var fileSize = file.size / 1024 / 1024; // in MB
+            
+            if (fileSize > 1) {
+                alert('File size exceeds 1 MB. Please choose a smaller file.');
+                this.value = ''; // Reset the file input
+            }
+        });
+    });
+</script>
   <script>
     fetch('header.html')
       .then(response => response.text())

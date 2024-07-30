@@ -356,7 +356,7 @@
 
             // Display the duration and price in the UI
             document.getElementById('durationDisplay').innerText = durationHours + ' hours ' + durationMinutes + ' minutes';
-            document.getElementById('priceDisplay').innerText = 'Total Price: $' + totalPrice;
+            document.getElementById('priceDisplay').innerText = 'Total Price: ₹' + totalPrice;
         });
         document.getElementById("cabSearchForm").addEventListener("submit", function (event) {
             event.preventDefault();
@@ -426,7 +426,7 @@
         cabListHTML += '<p class="card-text">Location: ' + cab.currLocation + '</p>';
         cabListHTML += '<p class="card-text">Type: ' + cab.carType + '</p>';
         cabListHTML += '<p class="card-text">Number: ' + cab.carNumber + '</p>';
-        cabListHTML += '<p class="card-text">Rate: ' + cab.perKmRate + ' INR per hour</p>';
+        cabListHTML += '<p class="card-text">Rate: ' + cab.perKmRate + ' ₹ per hour</p>';
         cabListHTML += '<button class="btn btn-primary book-now-btn" data-cab-id="' + cab.cabId + '" data-per-km-rate="' + cab.perKmRate + '">Book Now</button>';
         cabListHTML += '</div></div></div>';
     });
