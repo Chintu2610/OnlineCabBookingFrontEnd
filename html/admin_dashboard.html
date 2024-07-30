@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="shortcut icon" href="../assets/fab-icon.png">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="../css/styles.css">
@@ -28,10 +29,32 @@
             clear: both;
             display: table;
         }
+        .myclass {
+    position: relative; /* Needed to position the pseudo-element */
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.myclass::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/cab-3.png);
+    background-size: cover; /* Adjust as needed */
+    background-position: center; /* Adjust as needed */
+    opacity: 0.7; /* Change this value to make the image more or less transparent */
+    z-index: -1; /* Ensure the image is behind other content */
+}
+.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="main-wrapper">
+    <div class="main-wrapper myclass">
         <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
         
@@ -53,10 +76,7 @@
                                 <div id="welcomeMessage" style="text-align: center; margin-top: 20px; font-size: 24px;">
                                     Welcome ,<span id="uuidPlaceholder"></span>
                                 </div>
-                                
-                                <ul class="breadcrumb">
-                                    <li class="breadcrumb-item active">Dashboard</li>
-                                </ul>
+                            
                             </div>
                         </div>
                     </div>
@@ -70,7 +90,7 @@
                                         <span class="dash-widget-icon"><i class="fa fa-upload"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>trip</span>
+                                            <span>Trip</span>
                                         </div>
                                     </a>
                                 </div>
@@ -85,7 +105,7 @@
                                         <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>driver</span>
+                                            <span>Driver</span>
                                         </div>
                                     </a>
                                 </div>
@@ -100,7 +120,7 @@
                                         <span class="dash-widget-icon"><i class="fa fa-taxi"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>cab</span>
+                                            <span>Cab</span>
                                         </div>
                                     </a>
                                 </div>
@@ -110,30 +130,43 @@
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                             <div class="card dash-widget">
                                 <div class="card-body">
-                                    <a href="CustomerControler.html" style="text-decoration: none; color: inherit;">
+                                    <a href="customers.html" style="text-decoration: none; color: inherit;">
                                         <span class="dash-widget-icon"><i class="fa fa-globe"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>customer</span>
+                                            <span>Customer</span>
                                         </div>
                                     </a>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3" id="register-admin-card-1">
                             <div class="card dash-widget">
                                 <div class="card-body">
-                                    <a href="adminController.html" style="text-decoration: none; color: inherit;">
-                                        <span class="dash-widget-icon"><i class="fa fa-bolt"></i></span>
+                                    <a href="admin_register.html" style="text-decoration: none; color: inherit;">
+                                        <span class="dash-widget-icon"><i class="fa fa-globe"></i></span>
                                         <div class="dash-widget-info">
                                             <h3></h3>
-                                            <span>admin</span>
+                                            <span>Register Admin</span>
                                         </div>
                                     </a>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3" id="register-admin-card-2">
+                            <div class="card dash-widget">
+                                <div class="card-body">
+                                    <a href="ViewAllAdmin.html" style="text-decoration: none; color: inherit;">
+                                        <span class="dash-widget-icon"><i class="fa fa-globe"></i></span>
+                                        <div class="dash-widget-info">
+                                            <h3></h3>
+                                            <span>View All Admin</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+         
 
                     <!-- End Dashboard Widgets -->
                 </div>
@@ -158,11 +191,17 @@
             .then(data => document.getElementById('header').innerHTML = data)
             .catch(error => console.error('Error fetching header:', error));
 
-        // Load sidebar content
-        fetch('sidebar.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('sidebar').innerHTML = data)
-            .catch(error => console.error('Error fetching sidebar:', error));
+
+            document.addEventListener('DOMContentLoaded', function() {
+        var email = localStorage.getItem('email');
+        var adminCard1 = document.getElementById('register-admin-card-1');
+        var adminCard2 = document.getElementById('register-admin-card-2');
+        if (email !== 'admin@gmail.com') {
+            adminCard1.classList.add('hidden');
+            adminCard2.classList.add('hidden');
+        }
+    });
+        
     </script>
 
 <script>

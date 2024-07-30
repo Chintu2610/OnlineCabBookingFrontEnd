@@ -7,7 +7,7 @@
     <!-- Add your CSS includes here -->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-
+    <link rel="shortcut icon" href="../assets/fab-icon.png">
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="../css/font-awesome.min.css">
 
@@ -51,9 +51,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <h3 class="page-title">Admin Profile</h3>
-                             <div id="welcomeMessage" style="text-align: center; margin-top: 20px; font-size: 24px;">
-                                Welcome <span id="username"></span>
-                            </div>
+                             
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Admin Profile</li>
@@ -137,18 +135,19 @@
             
             var userId = localStorage.getItem('currUserId');
             var uuId=localStorage.getItem('uuid');
-            var url = 'http://localhost:1995/customer/viewCustomerProfile';
-            url += '?customerId='+userId; // Example: Replace param1 and value1 with your actual request variables
+            var url = 'http://localhost:1995/admin/viewAdminProfile';
+            url += '?adminId='+userId; // Example: Replace param1 and value1 with your actual request variables
             url += '&uuid='+uuId;
             $.ajax({
                 url: url, // Replace this URL with your API endpoint
                 type: 'GET',
                 success: function(data) {
+                    
                     $('#username').val(data.userName);
                     $('#address').val(data.address);
                     $('#phone').val(data.mobileNumber);
                     $('#email').val(data.email);
-                    $('#userid').val(data.customerId);
+                    $('#userid').val(data.adminId);
                     $('#password').val(data.password);
                 },
                 error: function(xhr, status, error) {

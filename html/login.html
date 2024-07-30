@@ -11,9 +11,10 @@
         padding: 0;
         background-color: #f0f0f0;
     }
-    
-    .container {
-        max-width: 400px;
+   
+    .custom-container {
+        max-width: 450px ; /* Ensure this rule takes precedence */
+        width: 100%; /* Ensure the container takes full width up to max-width */
         margin: 50px auto;
         padding: 20px;
         background-color: #fff;
@@ -57,22 +58,19 @@
     }
     body {
     /* Set background image and ensure it covers the whole page */
-    background-image: url('../assets/taxi\ service.jpg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+    background-image: url('../assets/taxi\ service.jpg'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    /* Optionally, you can add more styles to customize the appearance */
-    font-family: Arial, sans-serif; /* Example font-family */
+    font-family: Arial, sans-serif; 
     color: #333; /* Example text color */
-}
-html, body {
-    height: 100%;
-}
+    }
+
 </style>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<div class="container">
+<div class="custom-container">
     <img src="../assets/logo.png" alt="Logo" class="logo">
     <h2>Login</h2>
     <form id="loginForm"  >
@@ -130,6 +128,7 @@ html, body {
         localStorage.setItem('currRole', data.currRole);
         localStorage.setItem('currStatus', data.currStatus);
         localStorage.setItem('userName', data.userName);
+        localStorage.setItem('email', data.email);
         // Redirect based on user type
         switch (data.currRole) {
           case 'Admin':

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/M.css">
+    <link rel="shortcut icon" href="../assets/fab-icon.png">
     <!-- Add any additional CSS files if needed -->
     <style>
         #abc {
@@ -47,11 +48,32 @@
             font-size: 24px;
             margin-left: 100px;
         }
+        .myclass {
+    position: relative; /* Needed to position the pseudo-element */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    min-height: 100vh; 
+}
+
+.myclass::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/cab-3.png);
+    background-size: cover; /* Adjust as needed */
+    background-position: center; /* Adjust as needed */
+    opacity: 0.7; /* Change this value to make the image more or less transparent */
+    z-index: -1; /* Ensure the image is behind other content */
+}
+
     </style>
 </head>
 
 <body>
-    <div class="main-wrapper">
+    <div class="main-wrapper myclass">
         <!-- No iframe for header, content loaded via fetch -->
         <div id="header"></div>
 
@@ -63,63 +85,69 @@
         <div class="page-wrapper" style="margin-top: 0%;">
             <!-- Page Content -->
             <div class="content container-fluid">
-
                 <!-- Page Header -->
                 <div class="page-header">
-
-
                     <div class="row align-items-center">
-                        <div class="col">
-                            <div id="welcomeMessage">
-                                Welcome
-                            </div>
-                            <h3 class="page-title">Booking history</h3>
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="admin_dashboard.html">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Booking history</li>
-                            </ul>
-                        </div>
-
-                        <br><br><br><br><br><br><br><br>
                         <div class="col-auto ml-auto">
-
-
-                            <!-- <a href="CustomerController(Register).html" class="Addbutton" data-toggle="modal"
-                                data-target="#Tripcntrbookreq " style="font-size: 20px;" >
-                                Register
-                            </a> -->
-
-                            <div class="col-auto ml-auto">
-                                <!-- Search Form -->
-                                <div class="input-group">
-                                    <input type="text" id="searchBookingId" class="form-control" placeholder="Enter Booking ID">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button" id="searchButton">Search</button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- Search Form -->
+                                    <div class="input-group mb-3">
+                                        <input type="text" id="searchBookingId" class="form-control" placeholder="Enter Booking ID">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button" id="searchButton">Search</button>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <!-- Car Type Form -->
+                                    <form id="cabSearchFormByCarType">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <select class="form-control" id="carType" name="carType" required>
+                                                        <option value="" disabled selected>Select car type</option>
+                                                        <option value="standard">Standard/Regular Cab</option>
+                                                        <option value="luxury">Luxury/Executive Cab</option>
+                                                        <option value="suv">SUV/MUV</option>
+                                                        <option value="minivan">Minivan/MPV</option>
+                                                        <option value="electric">Electric/Hybrid Cab</option>
+                                                        <option value="wheelchair_accessible">Wheelchair Accessible Cab</option>
+                                                        <option value="economy">Economy Cab</option>
+                                                        <option value="shared">Shared/Ride-Share Cab</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <button type="submit" name="filter" class="btn btn-primary btn-block">Find Cabs</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-
-
+                            
                         </div>
 
                         <div id="abc">
-                            <div id="customerTableContainer" style="margin-top: 20px;">
-                                <table class="table table-striped">
-                                    <thead>
+                            <div id="customerTableContainer" style="margin-top: 20px; ">
+                                <table class="table table-bordered table-light">
+                                    <thead class="thead-dark" >
                                         <tr>
-                                            <th>ID</th>
+                                             
                                         <th>Pickup Location</th>
                                         <th>Pickup Date & Time</th>
                                         <th>Dropoff Date & Time</th>
                                         <th>Price (INR)</th>
                                         <th>Status</th>
-                                        <th>Driver ID</th>
+                                        <th>Driver Name</th>
                                         <th>ACtion</th>
 
                                             <!-- Add more table headers as needed -->
                                         </tr>
                                     </thead>
-                                    <tbody id="customerTableBody"></tbody>
+                                    <tbody id="customerTableBody" style="background-color: azure;"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -179,36 +207,49 @@
                         const bookings = Array.isArray(data) ? data : [data]; // Handle single object or array
                         bookings.forEach(c => {
                             const row = TableBody.insertRow();
-                            row.insertCell(0).textContent = c.tripBookingId || '';
-                            row.insertCell(1).textContent = c.pickupLocation || '';
-                            row.insertCell(2).textContent = c.fromDateTime || '';
-                            row.insertCell(3).textContent = c.toDateTime || '';
-                            row.insertCell(4).textContent = c.price || '';
-                            row.insertCell(5).textContent = c.currStatus || '';
-                            row.insertCell(6).textContent = c.driverId || 'No Driver Assigned';
-
+                            
+                            row.insertCell(0).textContent = c.pickupLocation || '';
+                            row.insertCell(1).textContent = c.fromDateTime || '';
+                            row.insertCell(2).textContent = c.toDateTime || '';
+                            row.insertCell(3).textContent = c.price || '';
+                            row.insertCell(4).textContent = c.currStatus || '';
+                            row.insertCell(5).textContent = c.driver ? c.driver.userName : 'No Driver Assigned';
+ 
                             const assignButton = document.createElement('button');
                             assignButton.textContent = 'Assign Driver';
                             assignButton.classList.add('btn', 'btn-primary', 'mr-2');
                             assignButton.addEventListener('click', () => {
                                 assignDriver(c.tripBookingId);
                             });
-                            const actionCell = row.insertCell(7);
-                            actionCell.appendChild(assignButton);
 
                             const completeButton = document.createElement('button');
                             completeButton.textContent = 'Complete Trip';
-                            completeButton.classList.add('btn', 'btn-secondary', 'mr-2');
+                            completeButton.classList.add('btn', 'btn-secondary');
                             completeButton.addEventListener('click', () => {
                                 completeTrip(c.tripBookingId);
                             });
-                            actionCell.appendChild(completeButton);
+
+                            const actionCell = row.insertCell(6);
+
+                            // Create a div to hold the buttons and apply Bootstrap flex utilities
+                            const buttonContainer = document.createElement('div');
+                            buttonContainer.classList.add('d-flex', 'justify-content-between');
+
+                            buttonContainer.appendChild(assignButton);
+                            buttonContainer.appendChild(completeButton);
+
+                            actionCell.appendChild(buttonContainer);
+
                         });
                     } else {
                         console.log('No data found.');
+                        alert('No data found.');
                     }
                 })
-                .catch(error => console.error('Error fetching bookings:', error));
+                .catch(error => {console.error('Error fetching bookings:', error)
+                    alert('Error fetching bookings.');
+                    window.location.reload();
+                });
         }
 
         // Initial fetch to display all bookings
@@ -243,6 +284,7 @@
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
+                    alert("There is no driver for this trip.")
                 });
         }
 
@@ -273,6 +315,7 @@
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
+                    
                 });
         }
 
@@ -286,6 +329,19 @@
                 alert('Please enter a Booking ID');
             }
         });
+                // Search button click event
+                
+    document.getElementById('cabSearchFormByCarType').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+    
+    var type = document.getElementById("carType").value;
+    var uuid = localStorage.getItem("uuid");
+    const searchUrl = "http://localhost:1995/admin/getTripsCabwise/" + encodeURIComponent(type) +  "?uuid=" + uuid;
+    
+    fetchAndDisplayBookings(searchUrl);
+});
+
+
     </script>
 </body>
 

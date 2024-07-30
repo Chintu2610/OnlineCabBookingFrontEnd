@@ -33,11 +33,33 @@
             clear: both;
             display: table;
         }
+        .myclass {
+    position: relative; /* Needed to position the pseudo-element */
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.myclass::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/cab-3.png);
+    background-size: cover; /* Adjust as needed */
+    background-position: center; /* Adjust as needed */
+    opacity: 0.7; /* Change this value to make the image more or less transparent */
+    z-index: -1; /* Ensure the image is behind other content */
+}
+div label{
+    color: #F7F9F2;
+}
     </style>
     
 </head>
 <body>
-    <div class="main-wrapper">
+    <div class="main-wrapper myclass">
         <div id="header"></div>
         
         <div class="sidebar" style="width: 200px;">
@@ -46,17 +68,7 @@
         <div class="page-wrapper">
             <!-- Page Content -->
             <div class="content container-fluid">
-                <div class="page-header">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h3 class="page-title">Profile</h3>
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Profile</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+               
                 <!-- Other content or form elements can be placed here -->
                 <!-- Profile Modal -->
                 <div class="row">
@@ -69,8 +81,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>User Id <span class="text-danger">*</span></label>
-                            <input type="text" id="userid" name="userid" class="form-control" disabled>
+                            <label>Address</label>
+                            <input type="text" id="address" name="address" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -97,18 +109,19 @@
                     
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Address</label>
-                            <input type="text" id="address" name="address" class="form-control">
-                        </div>
-                    </div>
+                    
                     <div class="col-md-6" style="display: none;">
                         <div class="form-group" >
                             <label>Password</label>
                             <input type="text" id="password" name="password" class="form-control" >
                         </div>
                     </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" style="display: none;">
+                            <label>User Id <span class="text-danger">*</span></label>
+                            <input type="text" id="userid" name="userid" class="form-control" disabled>
+                        </div>
                     </div>
                 <div class="col-md-12 text-center">
                     <div class="form-group">
@@ -167,45 +180,50 @@
         });
     </script>
     <script>
-        var userrole = localStorage.getItem('currRole');
+       var userRole = localStorage.getItem('currRole');
+
         // Function to handle form submission
         $('#profileForm').submit(function(e) {
             e.preventDefault(); // Prevent the default form submission
-    
+
             // Collect updated details from form fields
             var updatedDetails = {
                 email: $('#email').val(),
-                userName:$('#username').val(),
-                password:$('#password').val(),
-                address:$('#address').val(),
-                mobileNumber:$('#phone').val(),
-                userRole:userrole,
-                customerId:parseInt($('#userid').val())
+                userName: $('#username').val(),
+                password: $('#password').val(),
+                address: $('#address').val(),
+                mobileNumber: $('#phone').val(),
+                userRole: userRole,
+                customerId: parseInt($('#userid').val())
             };
+
             console.log(updatedDetails);
-            var uuId=localStorage.getItem('uuid');
-            var url='http://localhost:1995/customer/update';
-            url += '?uuid='+uuId;
+            
+            var uuId = localStorage.getItem('uuid');
+            var url = userRole === 'Admin' ? 'http://localhost:1995/admin/Update' : 'http://localhost:1995/customer/update';
+            url += '?uuid=' + uuId;
+
             // AJAX call to update details
             $.ajax({
-                url: url, // Replace with your backend script URL
+                url: url,
                 type: 'PUT',
                 headers: {
-            'Content-Type': 'application/json',
-            },
+                    'Content-Type': 'application/json'
+                },
                 data: JSON.stringify(updatedDetails),
                 success: function(response) {
                     // Handle success response
-                    alert('Details updated successfully:', response);
-                    // Optionally, perform actions like showing a success message or redirecting
+                    alert('Details updated successfully. ' );
+                    window.location.reload();
                 },
                 error: function(xhr, status, error) {
                     // Handle error response
-                    alert('Error updating details:', error);
+                    alert('Error updating details: ' + error);
                     // Optionally, show an error message to the user
                 }
             });
         });
+
     </script>
     <!-- End Profile Script -->
     <script>
@@ -214,12 +232,6 @@
             .then(response => response.text())
             .then(data => document.getElementById('header').innerHTML = data)
             .catch(error => console.error('Error fetching header:', error));
-
-        // Load sidebar content
-        fetch('sidebar.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('sidebar').innerHTML = data)
-            .catch(error => console.error('Error fetching sidebar:', error));
     </script>
 </body>
 </html>
